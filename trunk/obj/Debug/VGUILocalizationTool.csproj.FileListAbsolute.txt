@@ -1,0 +1,11 @@
+C:\Users\Dragon\Documents\Visual Studio 2008\Projects\VGUILocalizationTool\bin\Debug\VGUILocalizationTool.exe
+C:\Users\Dragon\Documents\Visual Studio 2008\Projects\VGUILocalizationTool\bin\Debug\VGUILocalizationTool.pdb
+C:\Users\Dragon\Documents\Visual Studio 2008\Projects\VGUILocalizationTool\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Dragon\Documents\Visual Studio 2008\Projects\VGUILocalizationTool\obj\Debug\VGUILocalizationTool.AddLocal.resources
+C:\Users\Dragon\Documents\Visual Studio 2008\Projects\VGUILocalizationTool\obj\Debug\VGUILocalizationTool.MainForm.resources
+C:\Users\Dragon\Documents\Visual Studio 2008\Projects\VGUILocalizationTool\obj\Debug\VGUILocalizationTool.Properties.Resources.resources
+C:\Users\Dragon\Documents\Visual Studio 2008\Projects\VGUILocalizationTool\obj\Debug\VGUILocalizationTool.csproj.GenerateResource.Cache
+C:\Users\Dragon\Documents\Visual Studio 2008\Projects\VGUILocalizationTool\obj\Debug\VGUILocalizationTool.exe
+C:\Users\Dragon\Documents\Visual Studio 2008\Projects\VGUILocalizationTool\obj\Debug\VGUILocalizationTool.pdb
+C:\Users\Dragon\Documents\Visual Studio 2008\Projects\VGUILocalizationTool\bin\Debug\VGUILocalizationTool.exe.config
+C:\Users\Dragon\Documents\Visual Studio 2008\Projects\VGUILocalizationTool\obj\Debug\VGUILocalizationTool.FindTextDialog.resources
