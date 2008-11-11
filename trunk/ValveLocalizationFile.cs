@@ -270,6 +270,10 @@ namespace VGUILocalizationTool
         public void WriteData(string local, List<LocalizationData> data)
         {
             string fileName = GetLocalFileName(local);
+            string fileNameBak = fileName + ".bak";
+            if (File.Exists(fileNameBak))
+                File.Delete(fileNameBak);
+            File.Move(fileName, fileNameBak);
             //local = local.Substring(0, 1).ToUpper() + local.Substring(1);
             using (StreamWriter sw = new StreamWriter(fileName, false, System.Text.Encoding.Unicode))
             {
