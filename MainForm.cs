@@ -68,7 +68,9 @@ namespace VGUILocalizationTool
 
         bool Locolaized(string en, string lc)
         {
-            if (en.Length <= 2)
+            if (lc == null)
+                return false;
+            else if (en.Length <= 2)
                 return true;
             else if (en.Length == lc.Length)
             {
@@ -106,7 +108,7 @@ namespace VGUILocalizationTool
                           select l).SingleOrDefault();
                 en.English = en.Localized;
                 en.DelimeterEnglish = en.DelimeterLocalized;
-                if (lc != null)
+                if (lc != null && lc.Localized != null)
                 {
                     en.EnglishTextChanged = (lc.English != null && en.English != lc.English);
                     en.EnglishOld = lc.English;
