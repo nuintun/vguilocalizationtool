@@ -9,11 +9,11 @@ using System.Windows.Forms;
 
 namespace VGUILocalizationTool
 {
-    public partial class AddLocal : Form
+  public partial class AddLocal : Form
+  {
+    public AddLocal()
     {
-        public AddLocal()
-        {
-            InitializeComponent();
-        }
+      InitializeComponent();
     }
+  }
 }

@@ -9,34 +9,34 @@ using System.Windows.Forms;
 
 namespace VGUILocalizationTool
 {
-    public partial class FindTextDialog : Form
+  public partial class FindTextDialog : Form
+  {
+    internal MainForm mainForm;
+
+    public FindTextDialog()
     {
-        internal MainForm mainForm;
-
-        public FindTextDialog()
-        {
-            InitializeComponent();
-        }
-
-        private void btNext_Click(object sender, EventArgs e)
-        {
-            mainForm.FindNext();            
-        }
-
-        private void btCancel_Click(object sender, EventArgs e)
-        {
-            Hide();
-        }
-
-        private void FindTextDialog_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            e.Cancel = true;
-            Hide();
-        }
-
-        private void rb_Click(object sender, EventArgs e)
-        {
-            ((RadioButton)sender).Checked = true;
-        }
+      InitializeComponent();
     }
+
+    private void btNext_Click(object sender, EventArgs e)
+    {
+      mainForm.FindNext();
+    }
+
+    private void btCancel_Click(object sender, EventArgs e)
+    {
+      Hide();
+    }
+
+    private void FindTextDialog_FormClosing(object sender, FormClosingEventArgs e)
+    {
+      e.Cancel = true;
+      Hide();
+    }
+
+    private void rb_Click(object sender, EventArgs e)
+    {
+      ((RadioButton)sender).Checked = true;
+    }
+  }
 }

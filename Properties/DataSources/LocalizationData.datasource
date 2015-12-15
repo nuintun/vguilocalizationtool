@@ -6,5 +6,5 @@
     cause the file to be unrecognizable by the program.
 -->
 <GenericObjectDataSource DisplayName="LocalizationData" Version="1.0" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
-   <TypeInfo>VGUILocalizationTool.LocalizationData, VGUILocalizationTool, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</TypeInfo>
+  <TypeInfo>VGUILocalizationTool.LocalizationData, VGUILocalizationTool, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</TypeInfo>
 </GenericObjectDataSource>
