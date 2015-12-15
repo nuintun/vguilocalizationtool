@@ -30,7 +30,11 @@
     {
       this.components = new System.ComponentModel.Container();
       System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+      System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
       System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+      System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+      System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+      System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
       System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
       this.dataGridView = new System.Windows.Forms.DataGridView();
       this.localizationDataBindingSource = new System.Windows.Forms.BindingSource(this.components);
@@ -48,10 +52,10 @@
       this.cbDontSaveNotLocalized = new System.Windows.Forms.CheckBox();
       this.lblPerc = new System.Windows.Forms.Label();
       this.btnNext = new System.Windows.Forms.Button();
-      this.textBox2 = new System.Windows.Forms.TextBox();
+      this.localTextBox = new System.Windows.Forms.TextBox();
       this.label4 = new System.Windows.Forms.Label();
       this.label3 = new System.Windows.Forms.Label();
-      this.textBox1 = new System.Windows.Forms.TextBox();
+      this.originTextBox = new System.Windows.Forms.TextBox();
       this.openOriginFile = new System.Windows.Forms.OpenFileDialog();
       this.ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
       this.originDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -89,11 +93,12 @@
       this.dataGridView.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
       this.dataGridView.MultiSelect = false;
       this.dataGridView.Name = "dataGridView";
-      dataGridViewCellStyle2.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-      this.dataGridView.RowsDefaultCellStyle = dataGridViewCellStyle2;
+      this.dataGridView.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
+      dataGridViewCellStyle6.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+      this.dataGridView.RowsDefaultCellStyle = dataGridViewCellStyle6;
       this.dataGridView.RowTemplate.DefaultCellStyle.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-      this.dataGridView.RowTemplate.Height = 24;
-      this.dataGridView.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+      this.dataGridView.RowTemplate.Height = 26;
+      this.dataGridView.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
       this.dataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
       this.dataGridView.Size = new System.Drawing.Size(781, 216);
       this.dataGridView.TabIndex = 7;
@@ -195,10 +200,10 @@
       this.panel1.Controls.Add(this.cbDontSaveNotLocalized);
       this.panel1.Controls.Add(this.lblPerc);
       this.panel1.Controls.Add(this.btnNext);
-      this.panel1.Controls.Add(this.textBox2);
+      this.panel1.Controls.Add(this.localTextBox);
       this.panel1.Controls.Add(this.label4);
       this.panel1.Controls.Add(this.label3);
-      this.panel1.Controls.Add(this.textBox1);
+      this.panel1.Controls.Add(this.originTextBox);
       this.panel1.Location = new System.Drawing.Point(10, 300);
       this.panel1.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
       this.panel1.Name = "panel1";
@@ -251,7 +256,7 @@
       this.cbDontSaveNotLocalized.Name = "cbDontSaveNotLocalized";
       this.cbDontSaveNotLocalized.Size = new System.Drawing.Size(147, 21);
       this.cbDontSaveNotLocalized.TabIndex = 7;
-      this.cbDontSaveNotLocalized.Text = "不保存未本地化的字段";
+      this.cbDontSaveNotLocalized.Text = "不保存未本地化的语言";
       this.cbDontSaveNotLocalized.UseVisualStyleBackColor = true;
       // 
       // lblPerc
@@ -278,20 +283,20 @@
       this.btnNext.UseVisualStyleBackColor = true;
       this.btnNext.Click += new System.EventHandler(this.btnNext_Click);
       // 
-      // textBox2
+      // localTextBox
       // 
-      this.textBox2.AcceptsReturn = true;
-      this.textBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+      this.localTextBox.AcceptsReturn = true;
+      this.localTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-      this.textBox2.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.localizationDataBindingSource, "Localized", true));
-      this.textBox2.Location = new System.Drawing.Point(86, 169);
-      this.textBox2.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
-      this.textBox2.Multiline = true;
-      this.textBox2.Name = "textBox2";
-      this.textBox2.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-      this.textBox2.Size = new System.Drawing.Size(684, 120);
-      this.textBox2.TabIndex = 4;
-      this.textBox2.WordWrap = false;
+      this.localTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.localizationDataBindingSource, "Localized", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+      this.localTextBox.Location = new System.Drawing.Point(86, 169);
+      this.localTextBox.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+      this.localTextBox.Multiline = true;
+      this.localTextBox.Name = "localTextBox";
+      this.localTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+      this.localTextBox.Size = new System.Drawing.Size(684, 120);
+      this.localTextBox.TabIndex = 4;
+      this.localTextBox.WordWrap = false;
       // 
       // label4
       // 
@@ -313,22 +318,22 @@
       this.label3.TabIndex = 1;
       this.label3.Text = "原始语言：";
       // 
-      // textBox1
+      // originTextBox
       // 
-      this.textBox1.AcceptsReturn = true;
-      this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+      this.originTextBox.AcceptsReturn = true;
+      this.originTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-      this.textBox1.BackColor = System.Drawing.SystemColors.Info;
-      this.textBox1.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.localizationDataBindingSource, "Origin", true, System.Windows.Forms.DataSourceUpdateMode.Never));
-      this.textBox1.Location = new System.Drawing.Point(86, 38);
-      this.textBox1.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
-      this.textBox1.Multiline = true;
-      this.textBox1.Name = "textBox1";
-      this.textBox1.ReadOnly = true;
-      this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-      this.textBox1.Size = new System.Drawing.Size(684, 120);
-      this.textBox1.TabIndex = 2;
-      this.textBox1.WordWrap = false;
+      this.originTextBox.BackColor = System.Drawing.SystemColors.Info;
+      this.originTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.localizationDataBindingSource, "Origin", true, System.Windows.Forms.DataSourceUpdateMode.Never));
+      this.originTextBox.Location = new System.Drawing.Point(86, 38);
+      this.originTextBox.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+      this.originTextBox.Multiline = true;
+      this.originTextBox.Name = "originTextBox";
+      this.originTextBox.ReadOnly = true;
+      this.originTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+      this.originTextBox.Size = new System.Drawing.Size(684, 120);
+      this.originTextBox.TabIndex = 2;
+      this.originTextBox.WordWrap = false;
       // 
       // openOriginFile
       // 
@@ -339,14 +344,18 @@
       // ID
       // 
       this.ID.DataPropertyName = "ID";
+      dataGridViewCellStyle2.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+      this.ID.DefaultCellStyle = dataGridViewCellStyle2;
       this.ID.FillWeight = 50F;
-      this.ID.HeaderText = "ID";
+      this.ID.HeaderText = "字段";
       this.ID.Name = "ID";
       this.ID.ReadOnly = true;
       // 
       // originDataGridViewTextBoxColumn
       // 
       this.originDataGridViewTextBoxColumn.DataPropertyName = "Origin";
+      dataGridViewCellStyle3.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+      this.originDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle3;
       this.originDataGridViewTextBoxColumn.FillWeight = 67.47509F;
       this.originDataGridViewTextBoxColumn.HeaderText = "原始语言";
       this.originDataGridViewTextBoxColumn.Name = "originDataGridViewTextBoxColumn";
@@ -356,18 +365,24 @@
       // 
       this.OriginTextChanged.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
       this.OriginTextChanged.DataPropertyName = "OriginTextChanged";
+      dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+      dataGridViewCellStyle4.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+      dataGridViewCellStyle4.NullValue = false;
+      this.OriginTextChanged.DefaultCellStyle = dataGridViewCellStyle4;
       this.OriginTextChanged.FalseValue = "";
       this.OriginTextChanged.FillWeight = 40F;
-      this.OriginTextChanged.HeaderText = "原始语言有更改";
+      this.OriginTextChanged.HeaderText = "已失效";
       this.OriginTextChanged.Name = "OriginTextChanged";
       this.OriginTextChanged.ReadOnly = true;
       this.OriginTextChanged.ToolTipText = "原始语言有更改，需要重新本地化！";
       this.OriginTextChanged.TrueValue = "";
-      this.OriginTextChanged.Width = 98;
+      this.OriginTextChanged.Width = 50;
       // 
       // localizedDataGridViewTextBoxColumn
       // 
       this.localizedDataGridViewTextBoxColumn.DataPropertyName = "Localized";
+      dataGridViewCellStyle5.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+      this.localizedDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle5;
       this.localizedDataGridViewTextBoxColumn.FillWeight = 67.47509F;
       this.localizedDataGridViewTextBoxColumn.HeaderText = "本地化语言";
       this.localizedDataGridViewTextBoxColumn.Name = "localizedDataGridViewTextBoxColumn";
@@ -418,10 +433,10 @@
     private System.Windows.Forms.BindingSource localizationDataBindingSource;
     private System.Windows.Forms.Panel panel1;
     private System.Windows.Forms.Button btnNext;
-    private System.Windows.Forms.TextBox textBox2;
+    private System.Windows.Forms.TextBox localTextBox;
     private System.Windows.Forms.Label label4;
     private System.Windows.Forms.Label label3;
-    private System.Windows.Forms.TextBox textBox1;
+    private System.Windows.Forms.TextBox originTextBox;
     private System.Windows.Forms.CheckBox cbDontSaveNotLocalized;
     private System.Windows.Forms.CheckBox cbSaveWithOrigin;
     private System.Windows.Forms.CheckBox cbUseSlashN;
