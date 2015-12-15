@@ -130,9 +130,9 @@ namespace VGUILocalizationTool
       file = new ValveLocalizationFile(tbOrigin.Text);
 
       string originName = Path.GetFileNameWithoutExtension(tbOrigin.Text);
-      string tokens = originName.Substring(originName.LastIndexOf("_") + 1);
+      string origin = originName.Substring(originName.LastIndexOf("_") + 1);
 
-      List<LocalizationData> ori = file.ReadData(tokens);
+      List<LocalizationData> ori = file.ReadData(origin);
       List<LocalizationData> loc = file.ReadData((string)cbLocal.SelectedItem);
 
       cbSaveWithOrigin.Checked = file.WithOriginText;
@@ -143,7 +143,10 @@ namespace VGUILocalizationTool
       foreach (var or in ori)
       {
         if (or.ID == null)
+        {
           continue;
+        }
+
         tcount++;
 
         var lc = (from l in loc

@@ -8,10 +8,14 @@ namespace VGUILocalizationTool
 {
   class ValveLocalizationFile
   {
+    private int pos;
     private string originFile;
     private string originName;
     private string originTokens;
-    private int pos;
+
+    public bool WithoutLang { get; set; }
+    public bool WithOriginText { get; set; }
+    public bool DontSaveNotLocalized { get; set; }
 
     public ValveLocalizationFile(string originFile)
     {
@@ -29,10 +33,6 @@ namespace VGUILocalizationTool
         this.originTokens = String.Empty;
       }
     }
-
-    public bool WithoutLang { get; set; }
-    public bool WithOriginText { get; set; }
-    public bool DontSaveNotLocalized { get; set; }
 
     private string GetLocalFileName(string local)
     {
@@ -143,8 +143,8 @@ namespace VGUILocalizationTool
 
       if (File.Exists(fileName))
       {
-        StreamReader sr = new StreamReader(fileName);
         String line;
+        StreamReader sr = new StreamReader(fileName);
 
         while ((line = sr.ReadLine()) != null)
         {
@@ -209,13 +209,13 @@ namespace VGUILocalizationTool
 
               if (tokens[i] == "lang")
               {
-                WithoutLang = false;
                 l++;
+                WithoutLang = false;
               }
               else if (tokens[i] == "Language")
               {
-                WithoutLang = true;
                 l = 3;
+                WithoutLang = true;
               }
               break;
             case 1:
@@ -351,6 +351,9 @@ namespace VGUILocalizationTool
               break;
           }
         }
+
+        sr.Close();
+        sr.Dispose();
       }
 
       return data;
@@ -366,7 +369,10 @@ namespace VGUILocalizationTool
         File.Delete(fileNameBak);
       }
 
-      File.Move(fileName, fileNameBak);
+      if (File.Exists(fileName))
+      {
+        File.Move(fileName, fileNameBak);
+      }
 
       StreamWriter sw = new StreamWriter(fileName, false, System.Text.Encoding.Unicode);
 
@@ -406,11 +412,11 @@ namespace VGUILocalizationTool
 
           sw.WriteLine(line);
 
-          if (WithOriginText && d.OriginOld != null)
+          if (WithOriginText)
           {
             string ori;
 
-            if (!d.OriginTextChanged)
+            if (!d.OriginTextChanged || d.OriginOld == null)
             {
               ori = d.Origin;
             }
@@ -434,16 +440,17 @@ namespace VGUILocalizationTool
         {
           sw.WriteLine(d.DelimeterID);
         }
-
-        sw.WriteLine("}");
-
-        if (!WithoutLang)
-        {
-          sw.WriteLine("}");
-        }
-
-        sw.Close();
       }
+
+      sw.WriteLine("}");
+
+      if (!WithoutLang)
+      {
+        sw.WriteLine("}");
+      }
+
+      sw.Close();
+      sw.Dispose();
     }
   }
 }

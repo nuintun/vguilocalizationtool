@@ -8,91 +8,111 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace VGUILocalizationTool.Properties {
-    
-    
-    [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "12.0.0.0")]
-    internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
-        
-        private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
-        
-        public static Settings Default {
-            get {
-                return defaultInstance;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Program Files\\Steam\\")]
-        public string InitialDir {
-            get {
-                return ((string)(this["InitialDir"]));
-            }
-            set {
-                this["InitialDir"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string FindText {
-            get {
-                return ((string)(this["FindText"]));
-            }
-            set {
-                this["FindText"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool OriginDefault {
-            get {
-                return ((bool)(this["OriginDefault"]));
-            }
-            set {
-                this["OriginDefault"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool IDDefault {
-            get {
-                return ((bool)(this["IDDefault"]));
-            }
-            set {
-                this["IDDefault"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool LocalizedDefault {
-            get {
-                return ((bool)(this["LocalizedDefault"]));
-            }
-            set {
-                this["LocalizedDefault"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("english")]
-        public string DefLang {
-            get {
-                return ((string)(this["DefLang"]));
-            }
-            set {
-                this["DefLang"] = value;
-            }
-        }
+namespace VGUILocalizationTool.Properties
+{
+  [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
+  [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "12.0.0.0")]
+  internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase
+  {
+
+    private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
+
+    public static Settings Default
+    {
+      get
+      {
+        return defaultInstance;
+      }
     }
+
+    [global::System.Configuration.UserScopedSettingAttribute()]
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+    [global::System.Configuration.DefaultSettingValueAttribute("C:\\Program Files\\Steam\\")]
+    public string InitialDir
+    {
+      get
+      {
+        return ((string)(this["InitialDir"]));
+      }
+      set
+      {
+        this["InitialDir"] = value;
+      }
+    }
+
+    [global::System.Configuration.UserScopedSettingAttribute()]
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+    [global::System.Configuration.DefaultSettingValueAttribute("")]
+    public string FindText
+    {
+      get
+      {
+        return ((string)(this["FindText"]));
+      }
+      set
+      {
+        this["FindText"] = value;
+      }
+    }
+
+    [global::System.Configuration.UserScopedSettingAttribute()]
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+    [global::System.Configuration.DefaultSettingValueAttribute("True")]
+    public bool OriginDefault
+    {
+      get
+      {
+        return ((bool)(this["OriginDefault"]));
+      }
+      set
+      {
+        this["OriginDefault"] = value;
+      }
+    }
+
+    [global::System.Configuration.UserScopedSettingAttribute()]
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+    [global::System.Configuration.DefaultSettingValueAttribute("False")]
+    public bool IDDefault
+    {
+      get
+      {
+        return ((bool)(this["IDDefault"]));
+      }
+      set
+      {
+        this["IDDefault"] = value;
+      }
+    }
+
+    [global::System.Configuration.UserScopedSettingAttribute()]
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+    [global::System.Configuration.DefaultSettingValueAttribute("False")]
+    public bool LocalizedDefault
+    {
+      get
+      {
+        return ((bool)(this["LocalizedDefault"]));
+      }
+      set
+      {
+        this["LocalizedDefault"] = value;
+      }
+    }
+
+    [global::System.Configuration.UserScopedSettingAttribute()]
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+    [global::System.Configuration.DefaultSettingValueAttribute("english")]
+    public string DefLang
+    {
+      get
+      {
+        return ((string)(this["DefLang"]));
+      }
+      set
+      {
+        this["DefLang"] = value;
+      }
+    }
+  }
 }
