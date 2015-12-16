@@ -1,16 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="VGUILocalizationTool.LocalizationData">
-    <Position X="6" Y="0.5" Width="1.5" />
+    <Position X="5.75" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAIABAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAgAQAAAgAAAAAACAAIAAAAAAAAAACAAABgAAgA=</HashCode>
       <FileName>LocalizationData.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="VGUILocalizationTool.MainForm" Collapsed="true">
     <Position X="2.25" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>BAAAAAAQACAAABAQAACAQAACIAgAgAAAEAAAAAIAAAA=</HashCode>
+      <HashCode>AAAEkAgRCCAQkFAgAAaAEBACYBQAwBUKBAAAAUqEAAo=</HashCode>
       <FileName>MainForm.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -30,7 +30,8 @@
   <Class Name="VGUILocalizationTool.Properties.Settings" Collapsed="true">
     <Position X="2.25" Y="1.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAIAAAAAABAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAUAAAAIAAAAAABIAAABAAAACAACkA=</HashCode>
+      <FileName>Settings.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Font Name="Segoe UI" Size="9" />

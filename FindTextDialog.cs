@@ -23,9 +23,9 @@ namespace VGUILocalizationTool
       mainForm.FindNext();
     }
 
-    private void btCancel_Click(object sender, EventArgs e)
+    private void btnPrev_Click(object sender, EventArgs e)
     {
-      Hide();
+      mainForm.FindPrev();
     }
 
     private void FindTextDialog_FormClosing(object sender, FormClosingEventArgs e)

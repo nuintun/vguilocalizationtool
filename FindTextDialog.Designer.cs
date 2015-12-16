@@ -30,11 +30,11 @@
     {
       System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FindTextDialog));
       this.label1 = new System.Windows.Forms.Label();
-      this.btNext = new System.Windows.Forms.Button();
-      this.btCancel = new System.Windows.Forms.Button();
+      this.btnNext = new System.Windows.Forms.Button();
+      this.btnPrev = new System.Windows.Forms.Button();
       this.rbID = new System.Windows.Forms.RadioButton();
       this.rbLocalized = new System.Windows.Forms.RadioButton();
-      this.rbEnglish = new System.Windows.Forms.RadioButton();
+      this.rbOrigin = new System.Windows.Forms.RadioButton();
       this.tbText = new System.Windows.Forms.TextBox();
       this.SuspendLayout();
       // 
@@ -48,28 +48,28 @@
       this.label1.TabIndex = 0;
       this.label1.Text = "文本：";
       // 
-      // btNext
+      // btnNext
       // 
-      this.btNext.Location = new System.Drawing.Point(294, 12);
-      this.btNext.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
-      this.btNext.Name = "btNext";
-      this.btNext.Size = new System.Drawing.Size(65, 25);
-      this.btNext.TabIndex = 5;
-      this.btNext.Text = "下一个";
-      this.btNext.UseVisualStyleBackColor = true;
-      this.btNext.Click += new System.EventHandler(this.btNext_Click);
+      this.btnNext.Location = new System.Drawing.Point(294, 12);
+      this.btnNext.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+      this.btnNext.Name = "btnNext";
+      this.btnNext.Size = new System.Drawing.Size(65, 25);
+      this.btnNext.TabIndex = 5;
+      this.btnNext.Text = "下一个";
+      this.btnNext.UseVisualStyleBackColor = true;
+      this.btnNext.Click += new System.EventHandler(this.btNext_Click);
       // 
-      // btCancel
+      // btnPrev
       // 
-      this.btCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-      this.btCancel.Location = new System.Drawing.Point(294, 43);
-      this.btCancel.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
-      this.btCancel.Name = "btCancel";
-      this.btCancel.Size = new System.Drawing.Size(65, 25);
-      this.btCancel.TabIndex = 6;
-      this.btCancel.Text = "取消";
-      this.btCancel.UseVisualStyleBackColor = true;
-      this.btCancel.Click += new System.EventHandler(this.btCancel_Click);
+      this.btnPrev.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+      this.btnPrev.Location = new System.Drawing.Point(294, 43);
+      this.btnPrev.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+      this.btnPrev.Name = "btnPrev";
+      this.btnPrev.Size = new System.Drawing.Size(65, 25);
+      this.btnPrev.TabIndex = 6;
+      this.btnPrev.Text = "上一个";
+      this.btnPrev.UseVisualStyleBackColor = true;
+      this.btnPrev.Click += new System.EventHandler(this.btnPrev_Click);
       // 
       // rbID
       // 
@@ -79,9 +79,9 @@
       this.rbID.Location = new System.Drawing.Point(50, 45);
       this.rbID.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
       this.rbID.Name = "rbID";
-      this.rbID.Size = new System.Drawing.Size(39, 21);
+      this.rbID.Size = new System.Drawing.Size(50, 21);
       this.rbID.TabIndex = 2;
-      this.rbID.Text = "ID";
+      this.rbID.Text = "字段";
       this.rbID.UseVisualStyleBackColor = true;
       this.rbID.Click += new System.EventHandler(this.rb_Click);
       // 
@@ -90,7 +90,7 @@
       this.rbLocalized.AutoSize = true;
       this.rbLocalized.Checked = global::VGUILocalizationTool.Properties.Settings.Default.LocalizedDefault;
       this.rbLocalized.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::VGUILocalizationTool.Properties.Settings.Default, "LocalizedDefault", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-      this.rbLocalized.Location = new System.Drawing.Point(171, 45);
+      this.rbLocalized.Location = new System.Drawing.Point(182, 45);
       this.rbLocalized.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
       this.rbLocalized.Name = "rbLocalized";
       this.rbLocalized.Size = new System.Drawing.Size(86, 21);
@@ -99,20 +99,20 @@
       this.rbLocalized.UseVisualStyleBackColor = true;
       this.rbLocalized.Click += new System.EventHandler(this.rb_Click);
       // 
-      // rbEnglish
+      // rbOrigin
       // 
-      this.rbEnglish.AutoSize = true;
-      this.rbEnglish.Checked = global::VGUILocalizationTool.Properties.Settings.Default.OriginDefault;
-      this.rbEnglish.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::VGUILocalizationTool.Properties.Settings.Default, "EnglishDefault", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-      this.rbEnglish.Location = new System.Drawing.Point(93, 45);
-      this.rbEnglish.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
-      this.rbEnglish.Name = "rbEnglish";
-      this.rbEnglish.Size = new System.Drawing.Size(74, 21);
-      this.rbEnglish.TabIndex = 3;
-      this.rbEnglish.TabStop = true;
-      this.rbEnglish.Text = "原始语言";
-      this.rbEnglish.UseVisualStyleBackColor = true;
-      this.rbEnglish.Click += new System.EventHandler(this.rb_Click);
+      this.rbOrigin.AutoSize = true;
+      this.rbOrigin.Checked = global::VGUILocalizationTool.Properties.Settings.Default.OriginDefault;
+      this.rbOrigin.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::VGUILocalizationTool.Properties.Settings.Default, "OriginDefault", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+      this.rbOrigin.Location = new System.Drawing.Point(104, 45);
+      this.rbOrigin.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+      this.rbOrigin.Name = "rbOrigin";
+      this.rbOrigin.Size = new System.Drawing.Size(74, 21);
+      this.rbOrigin.TabIndex = 3;
+      this.rbOrigin.TabStop = true;
+      this.rbOrigin.Text = "原始语言";
+      this.rbOrigin.UseVisualStyleBackColor = true;
+      this.rbOrigin.Click += new System.EventHandler(this.rb_Click);
       // 
       // tbText
       // 
@@ -126,18 +126,18 @@
       // 
       // FindTextDialog
       // 
-      this.AcceptButton = this.btNext;
+      this.AcceptButton = this.btnNext;
       this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-      this.CancelButton = this.btCancel;
+      this.CancelButton = this.btnPrev;
       this.ClientSize = new System.Drawing.Size(370, 79);
       this.Controls.Add(this.rbID);
       this.Controls.Add(this.rbLocalized);
-      this.Controls.Add(this.rbEnglish);
-      this.Controls.Add(this.btCancel);
+      this.Controls.Add(this.rbOrigin);
+      this.Controls.Add(this.btnPrev);
       this.Controls.Add(this.tbText);
-      this.Controls.Add(this.btNext);
+      this.Controls.Add(this.btnNext);
       this.Controls.Add(this.label1);
       this.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
       this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
@@ -159,10 +159,10 @@
     #endregion
 
     private System.Windows.Forms.Label label1;
-    private System.Windows.Forms.Button btNext;
-    private System.Windows.Forms.Button btCancel;
+    private System.Windows.Forms.Button btnNext;
+    private System.Windows.Forms.Button btnPrev;
     internal System.Windows.Forms.TextBox tbText;
-    internal System.Windows.Forms.RadioButton rbEnglish;
+    internal System.Windows.Forms.RadioButton rbOrigin;
     internal System.Windows.Forms.RadioButton rbID;
     internal System.Windows.Forms.RadioButton rbLocalized;
   }

@@ -12,11 +12,17 @@ namespace VGUILocalizationTool
 {
   public partial class MainForm : Form
   {
+    // 添加本地化语言窗口
+    AddLocal localDialog = new AddLocal();
+    // 搜索窗口
+    FindTextDialog searchDialog = new FindTextDialog();
+
     public MainForm()
     {
       InitializeComponent();
     }
 
+    // 选择文件
     private void btnOpen_Click(object sender, EventArgs e)
     {
       if (openOriginFile.ShowDialog() == DialogResult.OK)
@@ -39,9 +45,9 @@ namespace VGUILocalizationTool
         pos = pos == -1 ? -1 : pos + 1;
 
         var allfiles =
-            from s in Directory.GetFiles(path + "\\", originName.Remove(pos) + "*" + ext)
-            orderby s
-            select Path.GetFileNameWithoutExtension(s);
+          from s in Directory.GetFiles(path + "\\", originName.Remove(pos) + "*" + ext)
+          orderby s
+          select Path.GetFileNameWithoutExtension(s);
 
         cbLocal.Items.Clear();
 
@@ -55,7 +61,12 @@ namespace VGUILocalizationTool
           }
         }
 
-        lblPerc.Text = "";
+        // 启用添加按钮
+        if (cbLocal.Items.Count > 0)
+        {
+          btnSave.Enabled = true;
+        }
+
         localizationDataBindingSource.DataSource = new List<LocalizationData>();
 
         if (Properties.Settings.Default.DefLang != "")
@@ -70,17 +81,17 @@ namespace VGUILocalizationTool
       }
     }
 
+    // 添加本地化语言
     private void btnAdd_Click(object sender, EventArgs e)
     {
-      AddLocal local = new AddLocal();
-
-      if (local.ShowDialog() == DialogResult.OK)
+      if (localDialog.ShowDialog() == DialogResult.OK)
       {
 
-        string tokens = local.tbLocal.Text.Trim();
+        string tokens = localDialog.tbLocal.Text.Trim();
 
         if (tokens != "")
         {
+          btnSave.Enabled = true;
           cbLocal.Items.Add(tokens);
           cbLocal.SelectedIndex = cbLocal.Items.Count - 1;
         }
@@ -89,6 +100,7 @@ namespace VGUILocalizationTool
 
     ValveLocalizationFile file;
 
+    // 是否已本地化
     bool Locolaized(string or, string lc)
     {
       if (lc == null)
@@ -115,7 +127,7 @@ namespace VGUILocalizationTool
             }
           }
 
-          // skip text without letters
+          // 跳过没有字母的文本
           return true;
         }
       }
@@ -125,6 +137,7 @@ namespace VGUILocalizationTool
       }
     }
 
+    // 选择本地化语言
     private void cbLocal_SelectedIndexChanged(object sender, EventArgs e)
     {
       file = new ValveLocalizationFile(tbOrigin.Text);
@@ -149,9 +162,11 @@ namespace VGUILocalizationTool
 
         tcount++;
 
-        var lc = (from l in loc
-                  where or.ID == l.ID
-                  select l).SingleOrDefault();
+        var lc = (
+          from l in loc
+          where or.ID == l.ID
+          select l
+        ).SingleOrDefault();
 
         or.Origin = or.Localized;
         or.DelimeterOrigin = or.DelimeterLocalized;
@@ -176,10 +191,17 @@ namespace VGUILocalizationTool
         tcount = 1;
       }
 
-      lblPerc.Text = String.Format("{0:F}%", (1.0f * lcount / tcount) * 100);
       localizationDataBindingSource.DataSource = ori;
+
+      //TODO 本地化百分比，暂时无用
+      // lblPerc.Text = String.Format("{0:F}%", (1.0f * lcount / tcount) * 100);
+
+      // 设置查找，上一个，下一个的状态
+      moveBtnState();
+      btnFind.Enabled = localizationDataBindingSource.Count > 0;
     }
 
+    // 保存
     private void btnSave_Click(object sender, EventArgs e)
     {
       if (file == null)
@@ -194,76 +216,182 @@ namespace VGUILocalizationTool
       file.WriteData((string)cbLocal.SelectedItem, loc);
     }
 
+    // 上一个，下一个按钮状体
+    private void moveBtnState()
+    {
+      btnPrev.Enabled = localizationDataBindingSource.Position > 0;
+      btnNext.Enabled = localizationDataBindingSource.Position + 1 < localizationDataBindingSource.Count;
+    }
+
+    // 上一个
+    private void btnPrev_Click(object sender, EventArgs e)
+    {
+      LocalizationData data;
+      int pos = localizationDataBindingSource.Position;
+
+      do
+      {
+        data = (LocalizationData)localizationDataBindingSource.List[--pos];
+
+        if (data.ID != null && (data.OriginTextChanged || !Locolaized(data.Origin, data.Localized)))
+        {
+          localizationDataBindingSource.Position = pos;
+
+          moveBtnState();
+          break;
+        }
+      } while (pos > 0);
+    }
+
+    // 下一个
     private void btnNext_Click(object sender, EventArgs e)
     {
       LocalizationData data;
+      int count = localizationDataBindingSource.Count;
+      int pos = localizationDataBindingSource.Position;
+
       do
       {
-        localizationDataBindingSource.MoveNext();
-        data = (LocalizationData)localizationDataBindingSource.Current;
-      } while ((localizationDataBindingSource.Position + 1 < localizationDataBindingSource.Count) &&
-          (data.ID == null || (!data.OriginTextChanged && Locolaized(data.Origin, data.Localized))));
+        data = (LocalizationData)localizationDataBindingSource.List[++pos];
 
-      this.Invalidate();
+        if (data.ID != null && (data.OriginTextChanged || !Locolaized(data.Origin, data.Localized)))
+        {
+          localizationDataBindingSource.Position = pos;
+
+          moveBtnState();
+          break;
+        }
+      } while (pos + 1 < count);
     }
 
+    // 程序退出
     private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
     {
       Properties.Settings.Default.InitialDir = openOriginFile.InitialDirectory;
-      Properties.Settings.Default.FindText = dialog.tbText.Text;
-      Properties.Settings.Default.IDDefault = dialog.rbID.Checked;
-      Properties.Settings.Default.OriginDefault = dialog.rbEnglish.Checked;
-      Properties.Settings.Default.LocalizedDefault = dialog.rbLocalized.Checked;
+      Properties.Settings.Default.FindText = searchDialog.tbText.Text;
+      Properties.Settings.Default.IDDefault = searchDialog.rbID.Checked;
+      Properties.Settings.Default.OriginDefault = searchDialog.rbOrigin.Checked;
+      Properties.Settings.Default.LocalizedDefault = searchDialog.rbLocalized.Checked;
 
       if (cbLocal.Text != "")
       {
         Properties.Settings.Default.DefLang = cbLocal.Text;
       }
 
+      // 记录上次操作
       Properties.Settings.Default.Save();
+
+      // 释放资源
+      localDialog.Dispose();
+      searchDialog.Dispose();
+      this.Dispose();
     }
 
-    FindTextDialog dialog = new FindTextDialog();
-
-    internal void FindNext()
+    // 向上查找
+    internal void FindPrev()
     {
-      string text = dialog.tbText.Text.ToLower();
-      int ind = dialog.rbID.Checked ? 0 : dialog.rbEnglish.Checked ? 1 : 2;
+      string text = searchDialog.tbText.Text.ToLower();
 
       if (text != "")
       {
+        bool gotoPrev;
+        bool isFound = false;
         LocalizationData data;
-        bool gotoNext;
+        int count = localizationDataBindingSource.Count;
+        int pos = localizationDataBindingSource.Position;
+        int ind = searchDialog.rbID.Checked ? 0 : searchDialog.rbOrigin.Checked ? 1 : 2;
 
         do
         {
-          localizationDataBindingSource.MoveNext();
-          data = (LocalizationData)localizationDataBindingSource.Current;
-          gotoNext = (localizationDataBindingSource.Position + 1 < localizationDataBindingSource.Count);
-          if (gotoNext)
+          gotoPrev = pos > 0;
+
+          if (gotoPrev)
           {
+            data = (LocalizationData)localizationDataBindingSource.List[pos];
+
             if (data.ID != null)
             {
               switch (ind)
               {
                 case 0:
-                  gotoNext = (data.ID.ToLower().IndexOf(text) == -1);
+                  isFound = data.ID.ToLower().IndexOf(text) != -1;
                   break;
                 case 1:
-                  gotoNext = (data.Origin.ToLower().IndexOf(text) == -1);
+                  isFound = data.Origin.ToLower().IndexOf(text) != -1;
                   break;
                 case 2:
-                  gotoNext = (data.Localized.ToLower().IndexOf(text) == -1);
+                  isFound = data.Localized.ToLower().IndexOf(text) != -1;
                   break;
               }
             }
           }
-        } while (gotoNext);
 
-        this.Invalidate();
+          if (isFound)
+          {
+            localizationDataBindingSource.Position = pos;
+            break;
+          }
+          else
+          {
+            pos--;
+          }
+        } while (gotoPrev);
       }
     }
 
+    // 向下查找
+    internal void FindNext()
+    {
+      string text = searchDialog.tbText.Text.ToLower();
+
+      if (text != "")
+      {
+        bool gotoNext;
+        bool isFound = false;
+        LocalizationData data;
+        int count = localizationDataBindingSource.Count;
+        int pos = localizationDataBindingSource.Position;
+        int ind = searchDialog.rbID.Checked ? 0 : searchDialog.rbOrigin.Checked ? 1 : 2;
+
+        do
+        {
+          gotoNext = pos + 1 < count;
+
+          if (gotoNext)
+          {
+            data = (LocalizationData)localizationDataBindingSource.List[pos];
+
+            if (data.ID != null)
+            {
+              switch (ind)
+              {
+                case 0:
+                  isFound = data.ID.ToLower().IndexOf(text) != -1;
+                  break;
+                case 1:
+                  isFound = data.Origin.ToLower().IndexOf(text) != -1;
+                  break;
+                case 2:
+                  isFound = data.Localized.ToLower().IndexOf(text) != -1;
+                  break;
+              }
+            }
+          }
+
+          if (isFound)
+          {
+            localizationDataBindingSource.Position = pos;
+            break;
+          }
+          else
+          {
+            pos++;
+          }
+        } while (gotoNext);
+      }
+    }
+
+    // 键盘事件绑定
     private void MainForm_KeyDown(object sender, KeyEventArgs e)
     {
       if (e.Control && e.KeyCode == Keys.Q)
@@ -272,7 +400,7 @@ namespace VGUILocalizationTool
       }
       else if (e.Control && e.KeyCode == Keys.F)
       {
-        btFind_Click(null, null);
+        btnFind_Click(null, null);
       }
       else if (e.KeyCode == Keys.F3)
       {
@@ -280,10 +408,24 @@ namespace VGUILocalizationTool
       }
     }
 
-    private void btFind_Click(object sender, EventArgs e)
+    // 查找
+    private void btnFind_Click(object sender, EventArgs e)
     {
-      dialog.mainForm = this;
-      dialog.Show();
+      searchDialog.mainForm = this;
+      searchDialog.Show();
+    }
+
+    // 选择文件成功
+    private void openOriginFile_FileOk(object sender, CancelEventArgs e)
+    {
+      btnAdd.Enabled = true;
+      cbLocal.Enabled = true;
+    }
+
+    // 数据列表选择索引变更
+    private void dataGridView_SelectChanged(object sender, EventArgs e)
+    {
+      moveBtnState();
     }
   }
 }
