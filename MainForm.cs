@@ -17,9 +17,68 @@ namespace VGUILocalizationTool
     // 搜索窗口
     FindTextDialog searchDialog = new FindTextDialog();
 
+    // 初始化
     public MainForm()
     {
       InitializeComponent();
+    }
+
+    // 打开文件
+    private void openFile()
+    {
+      if (cbLocal.Text != "")
+      {
+        Properties.Settings.Default.DefLang = cbLocal.Text;
+      }
+
+      string path = Path.GetDirectoryName(tbOrigin.Text);
+
+      openOriginFile.InitialDirectory = path;
+
+      string ext = Path.GetExtension(tbOrigin.Text);
+      string originName = Path.GetFileNameWithoutExtension(tbOrigin.Text);
+      int pos = originName.LastIndexOf("_");
+
+      pos = pos == -1 ? originName.Length - 1 : pos + 1;
+
+      var allfiles =
+        from s in Directory.GetFiles(path + "\\", originName.Remove(pos) + "*" + ext)
+        orderby s
+        select Path.GetFileNameWithoutExtension(s);
+
+      cbLocal.Items.Clear();
+
+      foreach (string fileName in allfiles)
+      {
+        string fname = Path.GetFileNameWithoutExtension(fileName);
+
+        if (fname != originName)
+        {
+          cbLocal.Items.Add(fname.Substring(pos));
+        }
+      }
+
+      // 启用添加按钮
+      if (cbLocal.Items.Count > 0)
+      {
+        btnSave.Enabled = true;
+      }
+
+      localizationDataBindingSource.DataSource = new List<LocalizationData>();
+
+      if (Properties.Settings.Default.DefLang != "")
+      {
+        int i = cbLocal.Items.IndexOf(Properties.Settings.Default.DefLang);
+
+        if (i >= 0)
+        {
+          cbLocal.SelectedIndex = i;
+        }
+        else
+        {
+          cbLocal.SelectedIndex = cbLocal.Items.Count > 0 ? 0 : -1;
+        }
+      }
     }
 
     // 选择文件
@@ -27,58 +86,29 @@ namespace VGUILocalizationTool
     {
       if (openOriginFile.ShowDialog() == DialogResult.OK)
       {
-        if (cbLocal.Text != "")
-        {
-          Properties.Settings.Default.DefLang = cbLocal.Text;
-        }
-
         tbOrigin.Text = openOriginFile.FileName;
 
-        string path = Path.GetDirectoryName(tbOrigin.Text);
+        openFile();
+      }
+    }
 
-        openOriginFile.InitialDirectory = path;
+    // 语言是否已经存在
+    private bool isHasLocal(string tokens)
+    {
+      int i = 0;
+      var count = cbLocal.Items.Count;
 
-        string ext = Path.GetExtension(tbOrigin.Text);
-        string originName = Path.GetFileNameWithoutExtension(tbOrigin.Text);
-        int pos = originName.LastIndexOf("_");
+      tokens = tokens.ToLower();
 
-        pos = pos == -1 ? -1 : pos + 1;
-
-        var allfiles =
-          from s in Directory.GetFiles(path + "\\", originName.Remove(pos) + "*" + ext)
-          orderby s
-          select Path.GetFileNameWithoutExtension(s);
-
-        cbLocal.Items.Clear();
-
-        foreach (string fileName in allfiles)
+      for (; i < count; i++)
+      {
+        if (((string)cbLocal.Items[i]).ToLower() == tokens)
         {
-          string fname = Path.GetFileNameWithoutExtension(fileName);
-
-          if (fname != originName)
-          {
-            cbLocal.Items.Add(fname.Substring(pos));
-          }
-        }
-
-        // 启用添加按钮
-        if (cbLocal.Items.Count > 0)
-        {
-          btnSave.Enabled = true;
-        }
-
-        localizationDataBindingSource.DataSource = new List<LocalizationData>();
-
-        if (Properties.Settings.Default.DefLang != "")
-        {
-          int i = cbLocal.Items.IndexOf(Properties.Settings.Default.DefLang);
-
-          if (i >= 0)
-          {
-            cbLocal.SelectedIndex = i;
-          }
+          return true;
         }
       }
+
+      return false;
     }
 
     // 添加本地化语言
@@ -89,11 +119,15 @@ namespace VGUILocalizationTool
 
         string tokens = localDialog.tbLocal.Text.Trim();
 
-        if (tokens != "")
+        if (tokens != "" && !isHasLocal(tokens))
         {
           btnSave.Enabled = true;
           cbLocal.Items.Add(tokens);
           cbLocal.SelectedIndex = cbLocal.Items.Count - 1;
+        }
+        else
+        {
+          showStatus("本地化语言类型已经存在！");
         }
       }
     }
@@ -214,6 +248,7 @@ namespace VGUILocalizationTool
       file.WithOriginText = cbSaveWithOrigin.Checked;
       file.DontSaveNotLocalized = cbDontSaveNotLocalized.Checked;
       file.WriteData((string)cbLocal.SelectedItem, loc);
+      showStatus("保存成功！");
     }
 
     // 上一个，下一个按钮状体
@@ -303,6 +338,7 @@ namespace VGUILocalizationTool
 
         do
         {
+          pos--;
           gotoPrev = pos > 0;
 
           if (gotoPrev)
@@ -314,13 +350,13 @@ namespace VGUILocalizationTool
               switch (ind)
               {
                 case 0:
-                  isFound = data.ID.ToLower().IndexOf(text) != -1;
+                  isFound = data.ID.ToLower().IndexOf(text) >= 0;
                   break;
                 case 1:
-                  isFound = data.Origin.ToLower().IndexOf(text) != -1;
+                  isFound = data.Origin.ToLower().IndexOf(text) >= 0;
                   break;
                 case 2:
-                  isFound = data.Localized.ToLower().IndexOf(text) != -1;
+                  isFound = data.Localized.ToLower().IndexOf(text) >= 0;
                   break;
               }
             }
@@ -330,10 +366,6 @@ namespace VGUILocalizationTool
           {
             localizationDataBindingSource.Position = pos;
             break;
-          }
-          else
-          {
-            pos--;
           }
         } while (gotoPrev);
       }
@@ -355,6 +387,7 @@ namespace VGUILocalizationTool
 
         do
         {
+          pos++;
           gotoNext = pos + 1 < count;
 
           if (gotoNext)
@@ -366,13 +399,13 @@ namespace VGUILocalizationTool
               switch (ind)
               {
                 case 0:
-                  isFound = data.ID.ToLower().IndexOf(text) != -1;
+                  isFound = data.ID.ToLower().IndexOf(text) >= 0;
                   break;
                 case 1:
-                  isFound = data.Origin.ToLower().IndexOf(text) != -1;
+                  isFound = data.Origin.ToLower().IndexOf(text) >= 0;
                   break;
                 case 2:
-                  isFound = data.Localized.ToLower().IndexOf(text) != -1;
+                  isFound = data.Localized.ToLower().IndexOf(text) >= 0;
                   break;
               }
             }
@@ -383,28 +416,39 @@ namespace VGUILocalizationTool
             localizationDataBindingSource.Position = pos;
             break;
           }
-          else
-          {
-            pos++;
-          }
         } while (gotoNext);
       }
     }
 
-    // 键盘事件绑定
+    // 注册热键
     private void MainForm_KeyDown(object sender, KeyEventArgs e)
     {
-      if (e.Control && e.KeyCode == Keys.Q)
+      if (btnSave.Enabled && e.Control && e.KeyCode == Keys.S)
       {
-        btnNext_Click(null, null);
+        btnSave_Click(sender, null);
       }
-      else if (e.Control && e.KeyCode == Keys.F)
+      if (btnPrev.Enabled && e.Control && e.KeyCode == Keys.Left)
       {
-        btnFind_Click(null, null);
+        btnPrev_Click(sender, null);
       }
-      else if (e.KeyCode == Keys.F3)
+      if (btnNext.Enabled && e.Control && e.KeyCode == Keys.Right)
       {
-        FindNext();
+        btnNext_Click(sender, null);
+      }
+      else if (btnFind.Enabled && e.Control && e.KeyCode == Keys.F)
+      {
+        btnFind_Click(sender, null);
+      }
+      else if (searchDialog.Visible)
+      {
+        if (e.KeyCode == Keys.F2)
+        {
+          FindPrev();
+        }
+        else if (e.KeyCode == Keys.F3)
+        {
+          FindNext();
+        }
       }
     }
 
@@ -412,6 +456,7 @@ namespace VGUILocalizationTool
     private void btnFind_Click(object sender, EventArgs e)
     {
       searchDialog.mainForm = this;
+
       searchDialog.Show();
     }
 
@@ -426,6 +471,56 @@ namespace VGUILocalizationTool
     private void dataGridView_SelectChanged(object sender, EventArgs e)
     {
       moveBtnState();
+    }
+
+    // 数据列表鼠标进入事件
+    private void dataGridView_MouseEnter(object sender, EventArgs e)
+    {
+      dataGridView.Focus();
+    }
+
+    // 文件拖拽进入
+    private void MainForm_DragEnter(object sender, DragEventArgs e)
+    {
+      string filePath = ((string[])e.Data.GetData(DataFormats.FileDrop, false))[0];
+      string ext = Path.GetExtension(filePath).ToLower();
+
+      if (ext == ".txt" || ext == ".res")
+      {
+        e.Effect = DragDropEffects.All;
+      }
+      else
+      {
+        e.Effect = DragDropEffects.None;
+      }
+    }
+
+    // 文件拖拽放下
+    private void MainForm_DragDrop(object sender, DragEventArgs e)
+    {
+      string filePath = ((string[])e.Data.GetData(DataFormats.FileDrop, false))[0];
+
+      tbOrigin.Text = filePath;
+
+      openFile();
+    }
+
+    // 显示信息
+    private void showStatus(string message)
+    {
+      timer.Stop();
+
+      tsStatusLabel.Text = message;
+      timer.Enabled = true;
+
+      timer.Start();
+    }
+
+    // 计时器
+    private void timer_Tick(object sender, EventArgs e)
+    {
+      tsStatusLabel.Text = "";
+      timer.Enabled = false;
     }
   }
 }

@@ -28,6 +28,7 @@
     /// </summary>
     private void InitializeComponent()
     {
+      this.components = new System.ComponentModel.Container();
       System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FindTextDialog));
       this.label1 = new System.Windows.Forms.Label();
       this.btnNext = new System.Windows.Forms.Button();
@@ -36,6 +37,7 @@
       this.rbLocalized = new System.Windows.Forms.RadioButton();
       this.rbOrigin = new System.Windows.Forms.RadioButton();
       this.tbText = new System.Windows.Forms.TextBox();
+      this.toolTip = new System.Windows.Forms.ToolTip(this.components);
       this.SuspendLayout();
       // 
       // label1
@@ -56,18 +58,19 @@
       this.btnNext.Size = new System.Drawing.Size(65, 25);
       this.btnNext.TabIndex = 5;
       this.btnNext.Text = "下一个";
+      this.toolTip.SetToolTip(this.btnNext, "使用 F3 快速查找");
       this.btnNext.UseVisualStyleBackColor = true;
       this.btnNext.Click += new System.EventHandler(this.btNext_Click);
       // 
       // btnPrev
       // 
-      this.btnPrev.DialogResult = System.Windows.Forms.DialogResult.Cancel;
       this.btnPrev.Location = new System.Drawing.Point(294, 43);
       this.btnPrev.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
       this.btnPrev.Name = "btnPrev";
       this.btnPrev.Size = new System.Drawing.Size(65, 25);
       this.btnPrev.TabIndex = 6;
       this.btnPrev.Text = "上一个";
+      this.toolTip.SetToolTip(this.btnPrev, "使用 F2 快速查找");
       this.btnPrev.UseVisualStyleBackColor = true;
       this.btnPrev.Click += new System.EventHandler(this.btnPrev_Click);
       // 
@@ -130,7 +133,6 @@
       this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-      this.CancelButton = this.btnPrev;
       this.ClientSize = new System.Drawing.Size(370, 79);
       this.Controls.Add(this.rbID);
       this.Controls.Add(this.rbLocalized);
@@ -139,9 +141,11 @@
       this.Controls.Add(this.tbText);
       this.Controls.Add(this.btnNext);
       this.Controls.Add(this.label1);
+      this.DoubleBuffered = true;
       this.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
       this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
       this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+      this.KeyPreview = true;
       this.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
       this.MaximizeBox = false;
       this.MinimizeBox = false;
@@ -151,6 +155,7 @@
       this.Text = "查找";
       this.TopMost = true;
       this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FindTextDialog_FormClosing);
+      this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FindTextDialog_KeyDown);
       this.ResumeLayout(false);
       this.PerformLayout();
 
@@ -165,5 +170,6 @@
     internal System.Windows.Forms.RadioButton rbOrigin;
     internal System.Windows.Forms.RadioButton rbID;
     internal System.Windows.Forms.RadioButton rbLocalized;
+    private System.Windows.Forms.ToolTip toolTip;
   }
 }

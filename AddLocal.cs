@@ -11,6 +11,7 @@ namespace VGUILocalizationTool
 {
   public partial class AddLocal : Form
   {
+    // 初始化
     public AddLocal()
     {
       InitializeComponent();

@@ -47,10 +47,12 @@
       // 
       // AddLocal
       // 
+      this.AcceptButton = this.btnAdd;
       resources.ApplyResources(this, "$this");
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.Controls.Add(this.btnAdd);
       this.Controls.Add(this.tbLocal);
+      this.DoubleBuffered = true;
       this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
       this.MaximizeBox = false;
       this.MinimizeBox = false;
