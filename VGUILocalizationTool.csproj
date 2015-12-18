@@ -51,7 +51,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>app.ico</ApplicationIcon>
+    <ApplicationIcon>App.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject>VGUILocalizationTool.Program</StartupObject>
@@ -122,7 +122,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <None Include="app.config" />
+    <None Include="App.config" />
     <None Include="ClassDiagram.cd" />
     <None Include="Properties\DataSources\LocalizationData.datasource" />
     <None Include="Properties\Settings.settings">
@@ -138,7 +138,8 @@
     <Compile Include="ValveLocalizationFile.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="app.ico" />
+    <Content Include="App.ico" />
+    <Content Include="Info.png" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">

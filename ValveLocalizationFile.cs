@@ -8,49 +8,53 @@ namespace VGUILocalizationTool
 {
   class ValveLocalizationFile
   {
-    private int pos;
-    private string originFile;
-    private string originName;
-    private string originTokens;
-
-    public bool WithoutLang { get; set; }
+    private int pos { get; set; }
+    private string file { get; set; }
+    private string tokens { get; set; }
+    private string filename { get; set; }
+    private bool WithoutLang { get; set; }
     public bool WithOriginText { get; set; }
     public bool DontSaveNotLocalized { get; set; }
 
-    public ValveLocalizationFile(string originFile)
+    // VGUI 解析和写入类
+    public ValveLocalizationFile(string file)
     {
-      this.originFile = originFile;
-      this.originName = Path.GetFileNameWithoutExtension(originFile);
+      WithoutLang = false;
+      WithOriginText = false;
 
-      this.pos = originName.LastIndexOf("_");
+      this.file = file;
+      this.filename = Path.GetFileNameWithoutExtension(file);
+
+      this.pos = this.filename.LastIndexOf("_");
 
       if (pos != -1)
       {
-        this.originTokens = originName.Substring(pos + 1);
+        this.tokens = this.filename.Substring(pos + 1);
       }
       else
       {
-        this.originTokens = String.Empty;
+        this.tokens = String.Empty;
       }
     }
 
+    // 获取本地化文件名
     private string GetLocalFileName(string local)
     {
-      string ext = Path.GetExtension(originFile);
+      string ext = Path.GetExtension(this.file);
+      string localFile = this.filename.Remove(this.pos) + "_" + local + ext;
 
-      string localFile = originName.Remove(pos) + "_" + local + ext;
-
-      return Path.GetDirectoryName(originFile) + "\\" + localFile;
+      return Path.GetDirectoryName(this.file) + "\\" + localFile;
     }
 
+    // 解析引擎
     string[] SplitWithQuotas(string str, ref bool unterm)
     {
-      LinkedList<string> list = new LinkedList<string>();
-      StringBuilder sb = new StringBuilder();
-
       char o = '\0';
       bool q = false;
       bool s = false;
+
+      StringBuilder sb = new StringBuilder();
+      LinkedList<string> list = new LinkedList<string>();
 
       for (int i = 0; i < str.Length; i++)
       {
@@ -119,6 +123,7 @@ namespace VGUILocalizationTool
       return list.ToArray();
     }
 
+    // 跳过空白
     private int SkipEmpty(string[] tokens, int start)
     {
       for (int i = start; i < tokens.Length; i++)
@@ -132,14 +137,20 @@ namespace VGUILocalizationTool
       return -1;
     }
 
-    public List<LocalizationData> ReadData(string local)
+    // 数据读取
+    public List<LocalizationData> ReadData(string local = null)
     {
-      WithoutLang = false;
-      WithOriginText = false;
+      if (local == null)
+      {
+        local = tokens;
+      }
 
       int l = 0;
       string fileName = GetLocalFileName(local);
       List<LocalizationData> data = new List<LocalizationData>();
+
+      WithoutLang = false;
+      WithOriginText = false;
 
       if (File.Exists(fileName))
       {
@@ -148,9 +159,9 @@ namespace VGUILocalizationTool
 
         while ((line = sr.ReadLine()) != null)
         {
+          bool ML = false;
           bool unterm = false;
           string[] tokens = SplitWithQuotas(line, ref unterm);
-          bool ML = false;
 
           if (unterm)
           {
@@ -285,9 +296,10 @@ namespace VGUILocalizationTool
               }
 
               // all work
-              bool ori = tokens[i].StartsWith("[" + originTokens + "]");
               int j = i + 2;
               string s = tokens[i];
+              bool ori = s.StartsWith("[" + this.tokens + "]");
+
 
               if (ori)
               {
@@ -359,6 +371,7 @@ namespace VGUILocalizationTool
       return data;
     }
 
+    // 数据写入
     public void WriteData(string local, List<LocalizationData> data)
     {
       string fileName = GetLocalFileName(local);
@@ -431,7 +444,7 @@ namespace VGUILocalizationTool
             }
 
             ori = ori.Replace("\"", "\\\"");
-            line = String.Format("{0}\"[{1}]{2}\"{3}\"{4}\"", d.DelimeterID, originTokens, d.ID, d.DelimeterOrigin, ori);
+            line = String.Format("{0}\"[{1}]{2}\"{3}\"{4}\"", d.DelimeterID, this.tokens, d.ID, d.DelimeterOrigin, ori);
 
             sw.WriteLine(line);
           }

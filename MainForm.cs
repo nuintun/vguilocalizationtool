@@ -12,6 +12,8 @@ namespace VGUILocalizationTool
 {
   public partial class MainForm : Form
   {
+    // 语言文件
+    ValveLocalizationFile file;
     // 添加本地化语言窗口
     AddLocal localDialog = new AddLocal();
     // 搜索窗口
@@ -127,12 +129,10 @@ namespace VGUILocalizationTool
         }
         else
         {
-          showStatus("本地化语言类型已经存在！");
+          showStatus("本地化语言类型已经存在");
         }
       }
     }
-
-    ValveLocalizationFile file;
 
     // 是否已本地化
     bool Locolaized(string or, string lc)
@@ -176,18 +176,15 @@ namespace VGUILocalizationTool
     {
       file = new ValveLocalizationFile(tbOrigin.Text);
 
-      string originName = Path.GetFileNameWithoutExtension(tbOrigin.Text);
-      string origin = originName.Substring(originName.LastIndexOf("_") + 1);
-
-      List<LocalizationData> ori = file.ReadData(origin);
-      List<LocalizationData> loc = file.ReadData((string)cbLocal.SelectedItem);
+      List<LocalizationData> origin = file.ReadData();
+      List<LocalizationData> local = file.ReadData((string)cbLocal.SelectedItem);
 
       cbSaveWithOrigin.Checked = file.WithOriginText;
 
       int tcount = 0;
       int lcount = 0;
 
-      foreach (var or in ori)
+      foreach (var or in origin)
       {
         if (or.ID == null)
         {
@@ -197,7 +194,7 @@ namespace VGUILocalizationTool
         tcount++;
 
         var lc = (
-          from l in loc
+          from l in local
           where or.ID == l.ID
           select l
         ).SingleOrDefault();
@@ -225,7 +222,7 @@ namespace VGUILocalizationTool
         tcount = 1;
       }
 
-      localizationDataBindingSource.DataSource = ori;
+      localizationDataBindingSource.DataSource = origin;
 
       //TODO 本地化百分比，暂时无用
       // lblPerc.Text = String.Format("{0:F}%", (1.0f * lcount / tcount) * 100);
@@ -238,17 +235,15 @@ namespace VGUILocalizationTool
     // 保存
     private void btnSave_Click(object sender, EventArgs e)
     {
-      if (file == null)
+      if (file != null)
       {
-        return;
+        List<LocalizationData> local = (List<LocalizationData>)localizationDataBindingSource.DataSource;
+
+        file.WithOriginText = cbSaveWithOrigin.Checked;
+        file.DontSaveNotLocalized = cbDontSaveNotLocalized.Checked;
+        file.WriteData((string)cbLocal.SelectedItem, local);
+        showStatus("保存成功");
       }
-
-      List<LocalizationData> loc = (List<LocalizationData>)localizationDataBindingSource.DataSource;
-
-      file.WithOriginText = cbSaveWithOrigin.Checked;
-      file.DontSaveNotLocalized = cbDontSaveNotLocalized.Checked;
-      file.WriteData((string)cbLocal.SelectedItem, loc);
-      showStatus("保存成功！");
     }
 
     // 上一个，下一个按钮状体
@@ -365,9 +360,13 @@ namespace VGUILocalizationTool
           if (isFound)
           {
             localizationDataBindingSource.Position = pos;
-            break;
+
+            showStatus("在" + pos + "行找到匹配项");
+            return;
           }
         } while (gotoPrev);
+
+        showStatus("未找到匹配项");
       }
     }
 
@@ -414,9 +413,13 @@ namespace VGUILocalizationTool
           if (isFound)
           {
             localizationDataBindingSource.Position = pos;
-            break;
+
+            showStatus("在" + pos + "行找到匹配项");
+            return;
           }
         } while (gotoNext);
+
+        showStatus("未找到匹配项");
       }
     }
 
@@ -471,6 +474,20 @@ namespace VGUILocalizationTool
     private void dataGridView_SelectChanged(object sender, EventArgs e)
     {
       moveBtnState();
+
+      LocalizationData data = (LocalizationData)localizationDataBindingSource.Current;
+
+      if (data != null && data.ID == null)
+      {
+        dataGridView.CurrentRow.ReadOnly = true;
+        localTextBox.ReadOnly = true;
+        localTextBox.Cursor = Cursors.Default;
+      }
+      else
+      {
+        localTextBox.ReadOnly = false;
+        localTextBox.Cursor = Cursors.IBeam;
+      }
     }
 
     // 数据列表鼠标进入事件
@@ -508,19 +525,10 @@ namespace VGUILocalizationTool
     // 显示信息
     private void showStatus(string message)
     {
-      timer.Stop();
+      string timestamp = DateTime.Now.ToString("yyyy年MM月dd日 hh点mm分ss秒 - ");
 
-      tsStatusLabel.Text = message;
-      timer.Enabled = true;
-
-      timer.Start();
-    }
-
-    // 计时器
-    private void timer_Tick(object sender, EventArgs e)
-    {
-      tsStatusLabel.Text = "";
-      timer.Enabled = false;
+      tsStatusLabel.Visible = true;
+      tsStatusLabel.Text = timestamp + message;
     }
   }
 }

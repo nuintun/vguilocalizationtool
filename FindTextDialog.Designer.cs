@@ -119,6 +119,7 @@
       // 
       // tbText
       // 
+      this.tbText.BackColor = System.Drawing.SystemColors.Info;
       this.tbText.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::VGUILocalizationTool.Properties.Settings.Default, "FindText", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
       this.tbText.Location = new System.Drawing.Point(50, 13);
       this.tbText.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);

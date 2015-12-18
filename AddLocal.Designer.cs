@@ -35,6 +35,7 @@
       // 
       // tbLocal
       // 
+      this.tbLocal.BackColor = System.Drawing.SystemColors.Info;
       resources.ApplyResources(this.tbLocal, "tbLocal");
       this.tbLocal.Name = "tbLocal";
       // 

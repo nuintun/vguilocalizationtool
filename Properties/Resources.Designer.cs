@@ -68,5 +68,17 @@ namespace VGUILocalizationTool.Properties
         resourceCulture = value;
       }
     }
+
+    /// <summary>
+    ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+    /// </summary>
+    internal static System.Drawing.Bitmap Info
+    {
+      get
+      {
+        object obj = ResourceManager.GetObject("Info", resourceCulture);
+        return ((System.Drawing.Bitmap)(obj));
+      }
+    }
   }
 }
