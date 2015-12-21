@@ -21,7 +21,7 @@ namespace VGUILocalizationTool
     // 搜索窗口
     private FindTextDialog searchDialog = new FindTextDialog();
     // 内存缓存
-    private static MemoryCache CACHE = MemoryCache.Default;
+    private MemoryCache CACHE = null;
 
     // 初始化
     public MainForm()
@@ -32,6 +32,17 @@ namespace VGUILocalizationTool
     // 打开文件
     private void OpenFile()
     {
+      // 释放内存缓存
+      if (CACHE != null)
+      {
+        CACHE.Dispose();
+      }
+
+      // 清除文件缓存
+      file = null;
+      // 设置缓存
+      CACHE = MemoryCache.Default;
+
       string path = Path.GetDirectoryName(tbOrigin.Text);
 
       openOriginFile.InitialDirectory = path;
@@ -83,11 +94,6 @@ namespace VGUILocalizationTool
           cbLocal.SelectedIndex = cbLocal.Items.Count > 0 ? 0 : -1;
         }
       }
-
-      // 清除文件缓存
-      file = null;
-      // 释放内存缓存
-      CACHE.Dispose();
     }
 
     // 选择文件
@@ -178,7 +184,6 @@ namespace VGUILocalizationTool
         file = new ValveLocalizationFile(tbOrigin.Text);
       }
 
-      bool a = CACHE.Contains(localTokens);
 
       if (!CACHE.Contains(localTokens))
       {
@@ -220,7 +225,6 @@ namespace VGUILocalizationTool
       }
       else
       {
-        ShowStatus("use cahce");
         localCache = (ValveLocalizationCache)CACHE.Get(localTokens);
       }
 
@@ -229,9 +233,11 @@ namespace VGUILocalizationTool
       // 切换选择状态
       cbSaveWithOrigin.Checked = localCache.WithOriginText;
       cbDontSaveNotLocalized.Checked = localCache.DontSaveNotLocalized;
+      btnFind.Enabled = localizationDataBindingSource.Count > 0;
+
       // 设置查找，上一个，下一个的状态
       MoveBtnState();
-      btnFind.Enabled = localizationDataBindingSource.Count > 0;
+
       // 保存用户操作
       Properties.Settings.Default.DefLang = cbLocal.Text;
     }
