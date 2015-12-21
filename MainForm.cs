@@ -21,7 +21,7 @@ namespace VGUILocalizationTool
     // 搜索窗口
     private FindTextDialog searchDialog = new FindTextDialog();
     // 内存缓存
-    private MemoryCache CACHE = null;
+    private MemoryCache CACHE = MemoryCache.Default;
 
     // 初始化
     public MainForm()
@@ -32,25 +32,21 @@ namespace VGUILocalizationTool
     // 打开文件
     private void OpenFile()
     {
-      // 释放内存缓存
-      if (CACHE != null)
-      {
-        CACHE.Dispose();
-      }
-
       // 清除文件缓存
       file = null;
-      // 设置缓存
-      CACHE = MemoryCache.Default;
+
+      // 清除缓存
+      foreach (var item in CACHE)
+      {
+        CACHE.Remove(item.Key);
+      }
 
       string path = Path.GetDirectoryName(tbOrigin.Text);
-
-      openOriginFile.InitialDirectory = path;
-
       string ext = Path.GetExtension(tbOrigin.Text);
       string originName = Path.GetFileNameWithoutExtension(tbOrigin.Text);
       int pos = originName.LastIndexOf("_");
 
+      openOriginFile.InitialDirectory = path;
       pos = pos == -1 ? originName.Length - 1 : pos + 1;
 
       var allfiles =
@@ -554,11 +550,17 @@ namespace VGUILocalizationTool
     {
       if (file != null)
       {
+        string tokens = cbLocal.SelectedItem.ToString();
         bool isChecked = cbSaveWithOrigin.Checked;
-        ValveLocalizationCache localCache = (ValveLocalizationCache)CACHE.Get(cbLocal.SelectedItem.ToString());
 
         file.WithOriginText = isChecked;
-        localCache.WithOriginText = isChecked;
+
+        if (CACHE.Contains(tokens))
+        {
+          ValveLocalizationCache localCache = (ValveLocalizationCache)CACHE.Get(tokens);
+
+          localCache.WithOriginText = isChecked;
+        }
       }
     }
 
@@ -567,11 +569,17 @@ namespace VGUILocalizationTool
     {
       if (file != null)
       {
+        string tokens = cbLocal.SelectedItem.ToString();
         bool isChecked = cbDontSaveNotLocalized.Checked;
-        ValveLocalizationCache localCache = (ValveLocalizationCache)CACHE.Get(cbLocal.SelectedItem.ToString());
 
         file.DontSaveNotLocalized = isChecked;
-        localCache.DontSaveNotLocalized = isChecked;
+
+        if (CACHE.Contains(tokens))
+        {
+          ValveLocalizationCache localCache = (ValveLocalizationCache)CACHE.Get(tokens);
+
+          localCache.DontSaveNotLocalized = isChecked;
+        }
       }
     }
   }
