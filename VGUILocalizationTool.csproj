@@ -153,8 +153,8 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="Settings.cs" />
+    <Compile Include="ValveLocalizationCache.cs" />
     <Compile Include="ValveLocalizationFile.cs" />
-    <None Include="VGUILocalizationTool_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App.ico" />

@@ -30,18 +30,11 @@
     {
       this.components = new System.ComponentModel.Container();
       System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-      System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+      System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
       System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
       System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-      System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-      System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
       System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
       this.dataGridView = new System.Windows.Forms.DataGridView();
-      this.ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-      this.originDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-      this.OriginTextChanged = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-      this.UseSlashN = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-      this.localizedDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
       this.localizationDataBindingSource = new System.Windows.Forms.BindingSource(this.components);
       this.label1 = new System.Windows.Forms.Label();
       this.label2 = new System.Windows.Forms.Label();
@@ -64,6 +57,11 @@
       this.statusStrip = new System.Windows.Forms.StatusStrip();
       this.tsStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
       this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+      this.ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+      this.Origin = new System.Windows.Forms.DataGridViewTextBoxColumn();
+      this.OriginTextChanged = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+      this.UseSlashN = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+      this.Localized = new System.Windows.Forms.DataGridViewTextBoxColumn();
       ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this.localizationDataBindingSource)).BeginInit();
       this.panel.SuspendLayout();
@@ -90,10 +88,10 @@
       this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
       this.dataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ID,
-            this.originDataGridViewTextBoxColumn,
+            this.Origin,
             this.OriginTextChanged,
             this.UseSlashN,
-            this.localizedDataGridViewTextBoxColumn});
+            this.Localized});
       this.dataGridView.DataSource = this.localizationDataBindingSource;
       this.dataGridView.GridColor = System.Drawing.SystemColors.Control;
       this.dataGridView.Location = new System.Drawing.Point(10, 80);
@@ -102,8 +100,8 @@
       this.dataGridView.Name = "dataGridView";
       this.dataGridView.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
       this.dataGridView.RowHeadersVisible = false;
-      dataGridViewCellStyle6.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-      this.dataGridView.RowsDefaultCellStyle = dataGridViewCellStyle6;
+      dataGridViewCellStyle4.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+      this.dataGridView.RowsDefaultCellStyle = dataGridViewCellStyle4;
       this.dataGridView.RowTemplate.DefaultCellStyle.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
       this.dataGridView.RowTemplate.Height = 26;
       this.dataGridView.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
@@ -113,74 +111,6 @@
       this.dataGridView.VirtualMode = true;
       this.dataGridView.SelectionChanged += new System.EventHandler(this.dataGridView_SelectChanged);
       this.dataGridView.MouseEnter += new System.EventHandler(this.dataGridView_MouseEnter);
-      // 
-      // ID
-      // 
-      this.ID.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-      this.ID.DataPropertyName = "ID";
-      dataGridViewCellStyle2.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-      this.ID.DefaultCellStyle = dataGridViewCellStyle2;
-      this.ID.FillWeight = 2.5F;
-      this.ID.HeaderText = "字段";
-      this.ID.MinimumWidth = 38;
-      this.ID.Name = "ID";
-      this.ID.ReadOnly = true;
-      this.ID.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-      // 
-      // originDataGridViewTextBoxColumn
-      // 
-      this.originDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-      this.originDataGridViewTextBoxColumn.DataPropertyName = "Origin";
-      dataGridViewCellStyle3.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-      this.originDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle3;
-      this.originDataGridViewTextBoxColumn.FillWeight = 3.5F;
-      this.originDataGridViewTextBoxColumn.HeaderText = "原始语言";
-      this.originDataGridViewTextBoxColumn.MinimumWidth = 62;
-      this.originDataGridViewTextBoxColumn.Name = "originDataGridViewTextBoxColumn";
-      this.originDataGridViewTextBoxColumn.ReadOnly = true;
-      this.originDataGridViewTextBoxColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-      // 
-      // OriginTextChanged
-      // 
-      this.OriginTextChanged.DataPropertyName = "OriginTextChanged";
-      dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-      dataGridViewCellStyle4.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-      dataGridViewCellStyle4.NullValue = false;
-      this.OriginTextChanged.DefaultCellStyle = dataGridViewCellStyle4;
-      this.OriginTextChanged.FalseValue = "False";
-      this.OriginTextChanged.FillWeight = 1F;
-      this.OriginTextChanged.HeaderText = "已失效";
-      this.OriginTextChanged.MinimumWidth = 50;
-      this.OriginTextChanged.Name = "OriginTextChanged";
-      this.OriginTextChanged.ToolTipText = "原始语言有更改，需要重新本地化，完成后请取消选中状态！";
-      this.OriginTextChanged.TrueValue = "True";
-      this.OriginTextChanged.Width = 50;
-      // 
-      // UseSlashN
-      // 
-      this.UseSlashN.DataPropertyName = "UseSlashN";
-      this.UseSlashN.FalseValue = "False";
-      this.UseSlashN.FillWeight = 1F;
-      this.UseSlashN.HeaderText = "LF 换行符";
-      this.UseSlashN.IndeterminateValue = "";
-      this.UseSlashN.MinimumWidth = 66;
-      this.UseSlashN.Name = "UseSlashN";
-      this.UseSlashN.ToolTipText = "LF 换行符: \\n";
-      this.UseSlashN.TrueValue = "True";
-      this.UseSlashN.Width = 66;
-      // 
-      // localizedDataGridViewTextBoxColumn
-      // 
-      this.localizedDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-      this.localizedDataGridViewTextBoxColumn.DataPropertyName = "Localized";
-      dataGridViewCellStyle5.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-      this.localizedDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle5;
-      this.localizedDataGridViewTextBoxColumn.FillWeight = 4F;
-      this.localizedDataGridViewTextBoxColumn.HeaderText = "本地化语言";
-      this.localizedDataGridViewTextBoxColumn.MinimumWidth = 62;
-      this.localizedDataGridViewTextBoxColumn.Name = "localizedDataGridViewTextBoxColumn";
-      this.localizedDataGridViewTextBoxColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-      this.localizedDataGridViewTextBoxColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
       // 
       // localizationDataBindingSource
       // 
@@ -449,6 +379,66 @@
       this.tsStatusLabel.Size = new System.Drawing.Size(16, 22);
       this.tsStatusLabel.Visible = false;
       // 
+      // ID
+      // 
+      this.ID.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+      this.ID.DataPropertyName = "ID";
+      dataGridViewCellStyle2.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+      this.ID.DefaultCellStyle = dataGridViewCellStyle2;
+      this.ID.FillWeight = 2.5F;
+      this.ID.HeaderText = "字段";
+      this.ID.MinimumWidth = 38;
+      this.ID.Name = "ID";
+      this.ID.ReadOnly = true;
+      this.ID.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+      // 
+      // Origin
+      // 
+      this.Origin.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+      this.Origin.DataPropertyName = "Origin";
+      this.Origin.FillWeight = 3.5F;
+      this.Origin.HeaderText = "原始语言";
+      this.Origin.MinimumWidth = 62;
+      this.Origin.Name = "Origin";
+      // 
+      // OriginTextChanged
+      // 
+      this.OriginTextChanged.DataPropertyName = "OriginTextChanged";
+      dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+      dataGridViewCellStyle3.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+      dataGridViewCellStyle3.NullValue = false;
+      this.OriginTextChanged.DefaultCellStyle = dataGridViewCellStyle3;
+      this.OriginTextChanged.FalseValue = "False";
+      this.OriginTextChanged.FillWeight = 1F;
+      this.OriginTextChanged.HeaderText = "已失效";
+      this.OriginTextChanged.MinimumWidth = 50;
+      this.OriginTextChanged.Name = "OriginTextChanged";
+      this.OriginTextChanged.ToolTipText = "原始语言有更改，需要重新本地化，完成后请取消选中状态！";
+      this.OriginTextChanged.TrueValue = "True";
+      this.OriginTextChanged.Width = 50;
+      // 
+      // UseSlashN
+      // 
+      this.UseSlashN.DataPropertyName = "UseSlashN";
+      this.UseSlashN.FalseValue = "False";
+      this.UseSlashN.FillWeight = 1F;
+      this.UseSlashN.HeaderText = "LF 换行符";
+      this.UseSlashN.IndeterminateValue = "";
+      this.UseSlashN.MinimumWidth = 66;
+      this.UseSlashN.Name = "UseSlashN";
+      this.UseSlashN.ToolTipText = "LF 换行符: \\n";
+      this.UseSlashN.TrueValue = "True";
+      this.UseSlashN.Width = 66;
+      // 
+      // Localized
+      // 
+      this.Localized.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+      this.Localized.DataPropertyName = "Localized";
+      this.Localized.FillWeight = 4F;
+      this.Localized.HeaderText = "本地化语言";
+      this.Localized.MinimumWidth = 76;
+      this.Localized.Name = "Localized";
+      // 
       // MainForm
       // 
       this.AllowDrop = true;
@@ -516,10 +506,10 @@
     private System.Windows.Forms.ToolTip toolTip;
     private System.Windows.Forms.ToolStripStatusLabel tsStatusLabel;
     private System.Windows.Forms.DataGridViewTextBoxColumn ID;
-    private System.Windows.Forms.DataGridViewTextBoxColumn originDataGridViewTextBoxColumn;
+    private System.Windows.Forms.DataGridViewTextBoxColumn Origin;
     private System.Windows.Forms.DataGridViewCheckBoxColumn OriginTextChanged;
     private System.Windows.Forms.DataGridViewCheckBoxColumn UseSlashN;
-    private System.Windows.Forms.DataGridViewTextBoxColumn localizedDataGridViewTextBoxColumn;
+    private System.Windows.Forms.DataGridViewTextBoxColumn Localized;
   }
 }
 
