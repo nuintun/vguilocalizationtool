@@ -7,17 +7,20 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.IO;
+using System.Runtime.Caching;
 
 namespace VGUILocalizationTool
 {
   public partial class MainForm : Form
   {
     // 语言文件
-    ValveLocalizationFile file;
+    private ValveLocalizationFile file;
     // 添加本地化语言窗口
-    AddLocal localDialog = new AddLocal();
+    private AddLocal localDialog = new AddLocal();
     // 搜索窗口
-    FindTextDialog searchDialog = new FindTextDialog();
+    private FindTextDialog searchDialog = new FindTextDialog();
+    // 内存缓存
+    private MemoryCache cache = MemoryCache.Default;
 
     // 初始化
     public MainForm()
@@ -28,11 +31,6 @@ namespace VGUILocalizationTool
     // 打开文件
     private void openFile()
     {
-      if (cbLocal.Text != "")
-      {
-        Properties.Settings.Default.DefLang = cbLocal.Text;
-      }
-
       string path = Path.GetDirectoryName(tbOrigin.Text);
 
       openOriginFile.InitialDirectory = path;
@@ -60,7 +58,10 @@ namespace VGUILocalizationTool
         }
       }
 
-      // 启用添加按钮
+      // 启用按钮
+      btnAdd.Enabled = true;
+      cbLocal.Enabled = true;
+
       if (cbLocal.Items.Count > 0)
       {
         btnSave.Enabled = true;
@@ -81,6 +82,11 @@ namespace VGUILocalizationTool
           cbLocal.SelectedIndex = cbLocal.Items.Count > 0 ? 0 : -1;
         }
       }
+
+      // 清除文件缓存
+      file = null;
+      // 释放内存缓存
+      cache.Dispose();
     }
 
     // 选择文件
@@ -125,12 +131,13 @@ namespace VGUILocalizationTool
         {
           btnSave.Enabled = true;
           cbLocal.Items.Add(tokens);
-          cbLocal.SelectedIndex = cbLocal.Items.Count - 1;
         }
         else
         {
           showStatus("本地化语言类型已经存在");
         }
+
+        cbLocal.SelectedIndex = cbLocal.Items.IndexOf(tokens);
       }
     }
 
@@ -174,62 +181,60 @@ namespace VGUILocalizationTool
     // 选择本地化语言
     private void cbLocal_SelectedIndexChanged(object sender, EventArgs e)
     {
-      file = new ValveLocalizationFile(tbOrigin.Text);
+      List<LocalizationData> origin = null;
+      List<LocalizationData> local = null;
+      string localTokens = (string)cbLocal.SelectedItem;
 
-      List<LocalizationData> origin = file.ReadData();
-      List<LocalizationData> local = file.ReadData((string)cbLocal.SelectedItem);
-
-      cbSaveWithOrigin.Checked = file.WithOriginText;
-
-      int tcount = 0;
-      int lcount = 0;
-
-      foreach (var or in origin)
+      if (!cache.Contains(localTokens))
       {
-        if (or.ID == null)
+        file = new ValveLocalizationFile(tbOrigin.Text);
+        origin = file.ReadData();
+        local = file.ReadData(localTokens);
+        cbSaveWithOrigin.Checked = file.WithOriginText;
+
+        foreach (var or in origin)
         {
-          continue;
-        }
-
-        tcount++;
-
-        var lc = (
-          from l in local
-          where or.ID == l.ID
-          select l
-        ).SingleOrDefault();
-
-        or.Origin = or.Localized;
-        or.DelimeterOrigin = or.DelimeterLocalized;
-
-        if (lc != null && lc.Localized != null)
-        {
-          or.OriginTextChanged = (lc.Origin != null && or.Origin != lc.Origin);
-          or.OriginOld = lc.Origin;
-          or.Localized = lc.Localized;
-          or.UseSlashN = lc.UseSlashN;
-          or.DelimeterLocalized = lc.DelimeterLocalized;
-
-          if (Locolaized(or.Origin, lc.Localized))
+          if (or.ID == null)
           {
-            lcount++;
+            continue;
+          }
+
+          var lc = (
+            from l in local
+            where or.ID == l.ID
+            select l
+          ).SingleOrDefault();
+
+          or.Origin = or.Localized;
+          or.DelimeterOrigin = or.DelimeterLocalized;
+
+          if (lc != null && lc.Localized != null)
+          {
+            or.OriginTextChanged = (lc.Origin != null && or.Origin != lc.Origin);
+            or.OriginOld = lc.Origin;
+            or.Localized = lc.Localized;
+            or.UseSlashN = lc.UseSlashN;
+            or.DelimeterLocalized = lc.DelimeterLocalized;
           }
         }
-      }
 
-      if (tcount == 0)
+        CacheItemPolicy policy = new CacheItemPolicy();
+        policy.Priority = CacheItemPriority.NotRemovable;
+
+        cache.Set(localTokens, origin, policy);
+      }
+      else
       {
-        tcount = 1;
+        origin = (List<LocalizationData>)cache.Get(localTokens);
       }
 
       localizationDataBindingSource.DataSource = origin;
 
-      //TODO 本地化百分比，暂时无用
-      // lblPerc.Text = String.Format("{0:F}%", (1.0f * lcount / tcount) * 100);
-
       // 设置查找，上一个，下一个的状态
       moveBtnState();
       btnFind.Enabled = localizationDataBindingSource.Count > 0;
+      // 保存用户操作
+      Properties.Settings.Default.DefLang = cbLocal.Text;
     }
 
     // 保存
@@ -268,9 +273,11 @@ namespace VGUILocalizationTool
           localizationDataBindingSource.Position = pos;
 
           moveBtnState();
-          break;
+          return;
         }
       } while (pos > 0);
+
+      showStatus("已移动到开始行");
     }
 
     // 下一个
@@ -289,9 +296,11 @@ namespace VGUILocalizationTool
           localizationDataBindingSource.Position = pos;
 
           moveBtnState();
-          break;
+          return;
         }
       } while (pos + 1 < count);
+
+      showStatus("已移动到结尾行");
     }
 
     // 程序退出
@@ -461,13 +470,6 @@ namespace VGUILocalizationTool
       searchDialog.mainForm = this;
 
       searchDialog.Show();
-    }
-
-    // 选择文件成功
-    private void openOriginFile_FileOk(object sender, CancelEventArgs e)
-    {
-      btnAdd.Enabled = true;
-      cbLocal.Enabled = true;
     }
 
     // 数据列表选择索引变更

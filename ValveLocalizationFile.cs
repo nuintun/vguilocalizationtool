@@ -365,7 +365,6 @@ namespace VGUILocalizationTool
         }
 
         sr.Close();
-        sr.Dispose();
       }
 
       return data;
@@ -463,7 +462,6 @@ namespace VGUILocalizationTool
       }
 
       sw.Close();
-      sw.Dispose();
     }
   }
 }
