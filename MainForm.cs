@@ -249,8 +249,6 @@ namespace VGUILocalizationTool
       {
         List<LocalizationData> local = (List<LocalizationData>)localizationDataBindingSource.DataSource;
 
-        file.WithOriginText = cbSaveWithOrigin.Checked;
-        file.DontSaveNotLocalized = cbDontSaveNotLocalized.Checked;
         file.WriteData(cbLocal.SelectedItem.ToString(), local);
         ShowStatus("保存成功");
       }
@@ -549,6 +547,32 @@ namespace VGUILocalizationTool
 
       tsStatusLabel.Visible = true;
       tsStatusLabel.Text = timestamp + message;
+    }
+
+    // 是否保存原始语言
+    private void cbSaveWithOrigin_CheckedChanged(object sender, EventArgs e)
+    {
+      if (file != null)
+      {
+        bool isChecked = cbSaveWithOrigin.Checked;
+        ValveLocalizationCache localCache = (ValveLocalizationCache)CACHE.Get(cbLocal.SelectedItem.ToString());
+
+        file.WithOriginText = isChecked;
+        localCache.WithOriginText = isChecked;
+      }
+    }
+
+    // 是否保存未本地化的项
+    private void cbDontSaveNotLocalized_CheckedChanged(object sender, EventArgs e)
+    {
+      if (file != null)
+      {
+        bool isChecked = cbDontSaveNotLocalized.Checked;
+        ValveLocalizationCache localCache = (ValveLocalizationCache)CACHE.Get(cbLocal.SelectedItem.ToString());
+
+        file.DontSaveNotLocalized = isChecked;
+        localCache.DontSaveNotLocalized = isChecked;
+      }
     }
   }
 }
