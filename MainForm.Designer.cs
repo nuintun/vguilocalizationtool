@@ -370,11 +370,13 @@
       this.localTextBox.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
       this.localTextBox.Multiline = true;
       this.localTextBox.Name = "localTextBox";
+      this.localTextBox.ReadOnly = true;
       this.localTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
       this.localTextBox.Size = new System.Drawing.Size(775, 120);
       this.localTextBox.TabIndex = 4;
       this.localTextBox.WordWrap = false;
       this.localTextBox.TextChanged += new System.EventHandler(this.localTextBox_TextChanged);
+      this.localTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.localTextBox_KeyDown);
       // 
       // label4
       // 

@@ -273,6 +273,9 @@ namespace VGUILocalizationTool
           localizationDataBindingSource.Position = pos;
 
           MoveBtnState();
+          localTextBox.Focus();
+
+          localTextBox.SelectionStart = localTextBox.Text.Length;
           return;
         }
       } while (pos > 0);
@@ -296,6 +299,9 @@ namespace VGUILocalizationTool
           localizationDataBindingSource.Position = pos;
 
           MoveBtnState();
+          localTextBox.Focus();
+
+          localTextBox.SelectionStart = localTextBox.Text.Length;
           return;
         }
       } while (pos + 1 < count);
@@ -578,11 +584,24 @@ namespace VGUILocalizationTool
     // 绑定本地化文本框更改事件更新数据
     private void localTextBox_TextChanged(object sender, EventArgs e)
     {
-      LocalizationData data = (LocalizationData)localizationDataBindingSource.Current;
+      if (localizationDataBindingSource.Count > 0)
+      {
+        LocalizationData data = (LocalizationData)localizationDataBindingSource.Current;
 
-      data.Localized = localTextBox.Text;
+        data.Localized = localTextBox.Text;
 
-      dataGridView.InvalidateRow(localizationDataBindingSource.Position);
+        dataGridView.InvalidateRow(localizationDataBindingSource.Position);
+      }
+    }
+
+    // 本地化文本 Ctrl + A 全选
+    private void localTextBox_KeyDown(object sender, KeyEventArgs e)
+    {
+      if (e.Control && e.KeyCode == Keys.A)
+      {
+        localTextBox.Focus();
+        localTextBox.SelectAll();
+      }
     }
   }
 }
