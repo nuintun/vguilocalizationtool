@@ -418,7 +418,7 @@
       this.OriginTextChanged.Name = "OriginTextChanged";
       this.OriginTextChanged.ToolTipText = "原始语言有更改，需要重新本地化，完成后请取消选中状态！";
       this.OriginTextChanged.TrueValue = "True";
-      this.OriginTextChanged.Width = 70;
+      this.OriginTextChanged.Width = 50;
       // 
       // UseSlashN
       // 
@@ -431,7 +431,7 @@
       this.UseSlashN.Name = "UseSlashN";
       this.UseSlashN.ToolTipText = "LF 换行符: \\n";
       this.UseSlashN.TrueValue = "True";
-      this.UseSlashN.Width = 71;
+      this.UseSlashN.Width = 66;
       // 
       // Localized
       // 
