@@ -26,16 +26,15 @@ namespace VGUILocalizationTool
 
       this.file = file;
       this.filename = Path.GetFileNameWithoutExtension(file);
-
       this.pos = this.filename.LastIndexOf("_");
 
-      if (pos != -1)
+      if (this.pos >= 0)
       {
         this.tokens = this.filename.Substring(pos + 1);
       }
       else
       {
-        this.tokens = String.Empty;
+        this.tokens = string.Empty;
       }
     }
 
@@ -43,7 +42,7 @@ namespace VGUILocalizationTool
     public string GetLocalFileName(string local)
     {
       string ext = Path.GetExtension(this.file);
-      string localFile = this.filename.Remove(this.pos) + "_" + local + ext;
+      string localFile = (this.pos >= 0 ? this.filename.Remove(this.pos) : this.filename) + "_" + local + ext;
 
       return Path.GetDirectoryName(this.file) + "\\" + localFile;
     }

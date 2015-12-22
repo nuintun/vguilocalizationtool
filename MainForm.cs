@@ -47,14 +47,15 @@ namespace VGUILocalizationTool
       int pos = originName.LastIndexOf("_");
 
       openOriginFile.InitialDirectory = path;
-      pos = pos == -1 ? originName.Length - 1 : pos + 1;
 
       var allfiles =
-        from s in Directory.GetFiles(path + "\\", originName.Remove(pos) + "*" + ext)
+        from s in Directory.GetFiles(path + "\\", (pos >= 0 ? originName.Remove(pos) : originName) + "_*" + ext)
         orderby s
         select Path.GetFileNameWithoutExtension(s);
 
       cbLocal.Items.Clear();
+
+      pos = pos >= 0 ? pos + 1 : originName.Length + 1;
 
       foreach (string fileName in allfiles)
       {
@@ -507,7 +508,7 @@ namespace VGUILocalizationTool
       string filePath = ((string[])e.Data.GetData(DataFormats.FileDrop, false))[0];
       string ext = Path.GetExtension(filePath).ToLower();
 
-      if (ext == ".txt" || ext == ".res")
+      if (ext == ".txt")
       {
         e.Effect = DragDropEffects.All;
       }
