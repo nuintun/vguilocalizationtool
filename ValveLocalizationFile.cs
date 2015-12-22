@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
+using System.Text.RegularExpressions;
 
 namespace VGUILocalizationTool
 {
@@ -15,6 +16,7 @@ namespace VGUILocalizationTool
     private bool WithoutLang { get; set; }
     public bool WithOriginText { get; set; }
     public bool DontSaveNotLocalized { get; set; }
+    private static Regex ORITOKENSRE = new Regex(@"^\[[\w_]+\]");
 
     // VGUI 解析和写入类
     public ValveLocalizationFile(string file)
@@ -38,7 +40,7 @@ namespace VGUILocalizationTool
     }
 
     // 获取本地化文件名
-    private string GetLocalFileName(string local)
+    public string GetLocalFileName(string local)
     {
       string ext = Path.GetExtension(this.file);
       string localFile = this.filename.Remove(this.pos) + "_" + local + ext;
@@ -47,7 +49,7 @@ namespace VGUILocalizationTool
     }
 
     // 解析引擎
-    string[] SplitWithQuotas(string str, ref bool unterm)
+    private string[] SplitWithQuotas(string str, ref bool unterm)
     {
       char o = '\0';
       bool q = false;
@@ -140,9 +142,12 @@ namespace VGUILocalizationTool
     // 数据读取
     public List<LocalizationData> ReadData(string local = null)
     {
+      bool isOrigin = false;
+
       if (local == null)
       {
         local = tokens;
+        isOrigin = true;
       }
 
       int l = 0;
@@ -295,20 +300,37 @@ namespace VGUILocalizationTool
                 continue;
               }
 
-              // all work
+              //根据不同情况解析 [origin] 类型的语言字段
               int j = i + 2;
+              bool ori = false;
               string s = tokens[i];
-              bool ori = s.StartsWith("[" + this.tokens + "]");
 
-
-              if (ori)
+              if (isOrigin)
               {
-                s = s.Remove(0, 9);
+                // 不解析原始语言中的原始语言
+                if (ORITOKENSRE.IsMatch(s))
+                {
+                  break;
+                }
+              }
+              else
+              {
+                // 解析本地化语言中的原始语言
+                string oriTokens = "[" + this.tokens + "]";
+
+                ori = s.StartsWith(oriTokens);
+
+                if (ori)
+                {
+                  s = s.Remove(0, oriTokens.Length);
+                }
               }
 
-              cd = (from d in data
-                    where d.ID == s
-                    select d).SingleOrDefault();
+              cd = (
+                from d in data
+                where d.ID == s
+                select d
+              ).SingleOrDefault();
 
               if (cd == null)
               {
