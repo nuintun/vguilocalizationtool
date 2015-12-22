@@ -501,15 +501,6 @@ namespace VGUILocalizationTool
       }
     }
 
-    // 数据列表鼠标进入事件
-    private void dataGridView_MouseEnter(object sender, EventArgs e)
-    {
-      if (!localDialog.Visible && !searchDialog.Visible)
-      {
-        dataGridView.Focus();
-      }
-    }
-
     // 文件拖拽进入
     private void MainForm_DragEnter(object sender, DragEventArgs e)
     {
@@ -581,6 +572,16 @@ namespace VGUILocalizationTool
           localCache.DontSaveNotLocalized = isChecked;
         }
       }
+    }
+
+    // 绑定本地化文本框更改事件更新数据
+    private void localTextBox_TextChanged(object sender, EventArgs e)
+    {
+      LocalizationData data = (LocalizationData)localizationDataBindingSource.Current;
+
+      data.Localized = localTextBox.Text;
+
+      dataGridView.InvalidateRow(localizationDataBindingSource.Position);
     }
   }
 }
