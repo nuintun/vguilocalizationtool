@@ -17,6 +17,7 @@ namespace VGUILocalizationTool
     public bool WithOriginText { get; set; }
     public bool DontSaveNotLocalized { get; set; }
     private static Regex ORITOKENSRE = new Regex(@"^\[[\w_]+\]");
+    private static Valve.ValveAST valveAst = new Valve.ValveAST();
 
     private string BOF = string.Empty;
     private string EOF = string.Empty;
@@ -149,12 +150,9 @@ namespace VGUILocalizationTool
     // 数据读取
     public List<LocalizationData> ReadData(string local = null)
     {
-      bool isReadOrigin = false;
-
       if (local == null)
       {
         local = this.tokens;
-        isReadOrigin = true;
       }
 
       string path = GetLocalFileName(local);
@@ -165,12 +163,12 @@ namespace VGUILocalizationTool
 
       if (File.Exists(path))
       {
-        Valve.ValveAST valveAst = new Valve.ValveAST();
-
         Dictionary<string, object> ast = valveAst.GetAST(path, "english");
 
         string BOF = ast["BOF"].ToString();
         string EOF = ast["EOF"].ToString();
+        string lang = ast["Lang"].ToString();
+        string head = BOF.Replace(Valve.ValveAST.LANGHOLDER, lang);
       }
 
       return list;

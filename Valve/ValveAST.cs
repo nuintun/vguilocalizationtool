@@ -9,6 +9,10 @@ namespace VGUILocalizationTool.Valve
 {
   class ValveAST
   {
+    /// <summary>
+    /// 语言占位符
+    /// </summary>
+    public static string LANGHOLDER = "%Lang%";
     private static ValveTokens Tokens = new ValveTokens();
     private static Regex ORILANGRE = new Regex(@"^\[[\w_]+\]");
 
@@ -106,8 +110,8 @@ namespace VGUILocalizationTool.Valve
             else if (isInLanguage && IsQuotationWrap(token))
             {
               isInLanguage = false;
-              BOF += "\"{0}\"";
-              lang = token;
+              BOF += "\"" + LANGHOLDER + "\"";
+              lang = RemoveQuotationWrap(token);
             }
             else
             {
