@@ -77,7 +77,7 @@ namespace VGUILocalizationTool.Valve
         ValveLang item = null;
 
         // 已进入语言列表区域初始化语言对象
-        if (isEnterTokens)
+        if (isEnterTokens && !isLeaveTokens)
         {
           item = new ValveLang();
         }
@@ -90,26 +90,28 @@ namespace VGUILocalizationTool.Valve
           // 进入语言列表区域之前
           if (!isEnterTokens && !isLeaveTokens)
           {
-            if (token == "\"Tokens\"")
+            if (!isPreEnterTokens && token == "\"Tokens\"")
             {
               isPreEnterTokens = true;
+              BOF += token;
             }
-            else if (token == "{" && isPreEnterTokens)
+            else if (isPreEnterTokens && token == "{")
             {
               isEnterTokens = true;
+              BOF += token;
 
               if (j == cols - 1)
               {
-                BOF += token + Environment.NewLine;
+                BOF += Environment.NewLine;
               }
             }
-            else if (token == "\"Language\"")
+            else if (!isInLanguage && token == "\"Language\"")
             {
               isInLanguage = true;
+              BOF += token;
             }
-            else if (isInLanguage && IsQuotationWrap(token))
+            else if (lang == null && IsQuotationWrap(token))
             {
-              isInLanguage = false;
               BOF += "\"" + LANGHOLDER + "\"";
               lang = RemoveQuotationWrap(token);
             }
