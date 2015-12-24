@@ -165,161 +165,171 @@ namespace VGUILocalizationTool
 
       if (File.Exists(path))
       {
-        bool isInLanguage = false;
-        bool isPreEnterTokens = false;
-        bool isEnterTokens = false;
-        bool isLeaveTokens = false;
-        Tokens tokensParser = new Tokens();
-        string[][] tokens = tokensParser.GetTokens(path);
+        Valve.ValveAST valveAst = new Valve.ValveAST();
 
-        for (int i = 0, rows = tokens.Length; i < rows; i++)
-        {
-          int pos = 0;
-          LocalizationData item = null;
+        Dictionary<string, object> ast = valveAst.GetAST(path, "english");
 
-          if (isEnterTokens)
-          {
-            item = new LocalizationData();
-          }
-
-          for (int j = 0, cols = tokens[i].Length; j < cols; j++)
-          {
-            string token = tokens[i][j];
-
-            if (isEnterTokens)
-            {
-              string trimToken = token.Trim();
-
-              if (token == "}")
-              {
-                isLeaveTokens = true;
-
-                if (j == cols - 1)
-                {
-                  this.EOF += Environment.NewLine;
-                }
-              }
-              else if (trimToken != "")
-              {
-                switch (pos)
-                {
-                  //字段
-                  case 0:
-                    if (IsQuotationWrap(token))
-                    {
-                      // 默认文件不读取带 [language] 字段
-                      if (isReadOrigin && ORITOKENSRE.IsMatch(token))
-                      {
-                        continue;
-                      }
-                      else
-                      {
-                        pos++;
-                        item.ID = token;
-                      }
-                    }
-                    break;
-                  // 语言
-                  case 1:
-                    if (IsQuotationWrap(token))
-                    {
-                      pos++;
-                      item.Origin = token;
-                    }
-                    break;
-                  // 平台
-                  case 2:
-                    if (token.StartsWith("[") && token.EndsWith("]"))
-                    {
-                      pos++;
-                    }
-                    break;
-                }
-              }
-              else
-              {
-
-              }
-            }
-            else
-            {
-              if (token == "\"Tokens\"")
-              {
-                isPreEnterTokens = true;
-              }
-              else if (token == "{" && isPreEnterTokens)
-              {
-                isEnterTokens = true;
-
-                if (j == cols - 1)
-                {
-                  this.BOF += token + Environment.NewLine;
-                }
-              }
-              else if (token == "\"Language\"")
-              {
-                isInLanguage = true;
-              }
-              else if (isInLanguage && IsQuotationWrap(token))
-              {
-                isInLanguage = false;
-                this.BOF += "\"{0}\"";
-              }
-              else
-              {
-                this.BOF += token;
-              }
-            }
-
-            if (isLeaveTokens)
-            {
-              this.EOF += token;
-            }
-          }
-
-          if (!isEnterTokens)
-          {
-            this.BOF += Environment.NewLine;
-          }
-          else
-          {
-            if (pos >= 2)
-            {
-              string tokenInID = "[" + this.tokens + "]";
-
-              if (item.ID.StartsWith(tokenInID))
-              {
-                WithOriginText = true;
-
-                LocalizationData selectedItem = (
-                  from it in list
-                  where it.ID == item.ID && it.Platform == item.Platform
-                  select it
-                ).SingleOrDefault();
-
-                if (selectedItem != null)
-                {
-                  selectedItem.Origin = item.Origin;
-                }
-              }
-              else
-              {
-                list.Add(item);
-              }
-            }
-          }
-
-          if (isLeaveTokens)
-          {
-            if (i < rows - 1)
-            {
-              this.EOF += Environment.NewLine;
-            }
-          }
-        }
+        string BOF = ast["BOF"].ToString();
+        string EOF = ast["EOF"].ToString();
       }
 
       return list;
+
+      //bool isInLanguage = false;
+      //bool isPreEnterTokens = false;
+      //bool isEnterTokens = false;
+      //bool isLeaveTokens = false;
+      //Tokens tokensParser = new Tokens();
+      //string[][] tokens = tokensParser.GetTokens(path);
+
+      //for (int i = 0, rows = tokens.Length; i < rows; i++)
+      //{
+      //  int pos = 0;
+      //  LocalizationData item = null;
+
+      //  if (isEnterTokens)
+      //  {
+      //    item = new LocalizationData();
+      //  }
+
+      //  for (int j = 0, cols = tokens[i].Length; j < cols; j++)
+      //  {
+      //    string token = tokens[i][j];
+
+      //    if (isEnterTokens)
+      //    {
+      //      string trimToken = token.Trim();
+
+      //      if (token == "}")
+      //      {
+      //        isLeaveTokens = true;
+
+      //        if (j == cols - 1)
+      //        {
+      //          this.EOF += Environment.NewLine;
+      //        }
+      //      }
+      //      else if (trimToken != "")
+      //      {
+      //        switch (pos)
+      //        {
+      //          //字段
+      //          case 0:
+      //            if (IsQuotationWrap(token))
+      //            {
+      //              // 默认文件不读取带 [language] 字段
+      //              if (isReadOrigin && ORITOKENSRE.IsMatch(token))
+      //              {
+      //                continue;
+      //              }
+      //              else
+      //              {
+      //                pos++;
+      //                item.ID = token;
+      //              }
+      //            }
+      //            break;
+      //          // 语言
+      //          case 1:
+      //            if (IsQuotationWrap(token))
+      //            {
+      //              pos++;
+      //              item.Origin = token;
+      //            }
+      //            break;
+      //          // 平台
+      //          case 2:
+      //            if (token.StartsWith("[") && token.EndsWith("]"))
+      //            {
+      //              pos++;
+      //            }
+      //            break;
+      //        }
+      //      }
+      //      else
+      //      {
+
+      //      }
+      //    }
+      //    else
+      //    {
+      //      if (token == "\"Tokens\"")
+      //      {
+      //        isPreEnterTokens = true;
+      //      }
+      //      else if (token == "{" && isPreEnterTokens)
+      //      {
+      //        isEnterTokens = true;
+
+      //        if (j == cols - 1)
+      //        {
+      //          this.BOF += token + Environment.NewLine;
+      //        }
+      //      }
+      //      else if (token == "\"Language\"")
+      //      {
+      //        isInLanguage = true;
+      //      }
+      //      else if (isInLanguage && IsQuotationWrap(token))
+      //      {
+      //        isInLanguage = false;
+      //        this.BOF += "\"{0}\"";
+      //      }
+      //      else
+      //      {
+      //        this.BOF += token;
+      //      }
+      //    }
+
+      //    if (isLeaveTokens)
+      //    {
+      //      this.EOF += token;
+      //    }
+      //  }
+
+      //  if (!isEnterTokens)
+      //  {
+      //    this.BOF += Environment.NewLine;
+      //  }
+      //  else
+      //  {
+      //    if (pos >= 2)
+      //    {
+      //      string tokenInID = "[" + this.tokens + "]";
+
+      //      if (item.ID.StartsWith(tokenInID))
+      //      {
+      //        WithOriginText = true;
+
+      //        LocalizationData selectedItem = (
+      //          from it in list
+      //          where it.ID == item.ID && it.Platform == item.Platform
+      //          select it
+      //        ).SingleOrDefault();
+
+      //        if (selectedItem != null)
+      //        {
+      //          selectedItem.Origin = item.Origin;
+      //        }
+      //      }
+      //      else
+      //      {
+      //        list.Add(item);
+      //      }
+      //    }
+      //  }
+
+      //  if (isLeaveTokens)
+      //  {
+      //    if (i < rows - 1)
+      //    {
+      //      this.EOF += Environment.NewLine;
+      //    }
+      //  }
+      //}
+      //}
+
+      // return list;
       // if (File.Exists(path))
       // {
       //  int l = 0;

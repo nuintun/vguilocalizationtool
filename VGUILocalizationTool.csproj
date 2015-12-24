@@ -121,6 +121,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Valve\ValveAST.cs" />
+    <Compile Include="Valve\ValveLang.cs" />
+    <Compile Include="Valve\ValveTokens.cs" />
     <EmbeddedResource Include="AddLocal.resx">
       <DependentUpon>AddLocal.cs</DependentUpon>
     </EmbeddedResource>
