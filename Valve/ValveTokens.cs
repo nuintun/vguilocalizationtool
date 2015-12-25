@@ -55,93 +55,84 @@ namespace VGUILocalizationTool.Valve
           lineTokens = new LinkedList<string>();
         }
 
-        int len = line.Length;
-
-        if (len > 0)
+        for (int i = 0, len = line.Length; i < len; i++)
         {
-          for (int i = 0; i < len; i++)
+          ch = line[i];
+
+          if (isComment)
           {
-            ch = line[i];
+            token.Append(ch);
+            continue;
+          }
 
-            if (isComment)
+          // 获取下一个字符
+          nch = i + 1 < len ? line[i + 1] : '\0';
+
+          if (!isQuotation && pch != '\\' && ch == '/' && nch == '/')
+          {
+            isComment = true;
+
+            AddLineTokens(lineTokens, token);
+            token.Append(ch);
+          }
+          else if (pch != '\\' && ch == '"')
+          {
+            if (isQuotation)
             {
+              isQuotation = false;
+
               token.Append(ch);
-              continue;
+              AddLineTokens(lineTokens, token);
             }
-
-            // 获取下一个字符
-            nch = i + 1 < len ? line[i + 1] : '\0';
-
-            if (!isQuotation && pch != '\\' && ch == '/' && nch == '/')
+            else
             {
-              isComment = true;
+              isQuotation = true;
 
               AddLineTokens(lineTokens, token);
               token.Append(ch);
             }
-            else if (pch != '\\' && ch == '"')
-            {
-              if (isQuotation)
-              {
-                isQuotation = false;
-
-                token.Append(ch);
-                AddLineTokens(lineTokens, token);
-              }
-              else
-              {
-                isQuotation = true;
-
-                AddLineTokens(lineTokens, token);
-                token.Append(ch);
-              }
-            }
-            else if (pch != '\\' && (ch == '{' || ch == '}'))
-            {
-              if (isQuotation)
-              {
-                token.Append(ch);
-              }
-              else
-              {
-                AddLineTokens(lineTokens, token);
-                token.Append(ch);
-                AddLineTokens(lineTokens, token);
-              }
-            }
-            else if (pch != '\\' && (ch == '[' || ch == ']'))
-            {
-              if (isQuotation)
-              {
-                token.Append(ch);
-              }
-              else
-              {
-                if (ch == ']')
-                {
-                  token.Append(ch);
-                }
-
-                AddLineTokens(lineTokens, token);
-
-                if (ch == '[')
-                {
-                  token.Append(ch);
-                }
-              }
-            }
-            else
+          }
+          else if (pch != '\\' && (ch == '{' || ch == '}'))
+          {
+            if (isQuotation)
             {
               token.Append(ch);
             }
-
-            // 保存前一个字符
-            pch = ch;
+            else
+            {
+              AddLineTokens(lineTokens, token);
+              token.Append(ch);
+              AddLineTokens(lineTokens, token);
+            }
           }
-        }
-        else
-        {
-          token.Append(Environment.NewLine);
+          else if (pch != '\\' && (ch == '[' || ch == ']'))
+          {
+            if (isQuotation)
+            {
+              token.Append(ch);
+            }
+            else
+            {
+              if (ch == ']')
+              {
+                token.Append(ch);
+              }
+
+              AddLineTokens(lineTokens, token);
+
+              if (ch == '[')
+              {
+                token.Append(ch);
+              }
+            }
+          }
+          else
+          {
+            token.Append(ch);
+          }
+
+          // 保存前一个字符
+          pch = ch;
         }
 
         if (!isQuotation)

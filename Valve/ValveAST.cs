@@ -17,6 +17,16 @@ namespace VGUILocalizationTool.Valve
     private static Regex ORILANGRE = new Regex(@"^\[[\w_]+\]");
 
     /// <summary>
+    /// 转义花括号
+    /// </summary>
+    /// <param name="token"></param>
+    /// <returns></returns>
+    private string EscapeBrace(string token)
+    {
+      return token.Replace("{", "{{").Replace("}", "}}");
+    }
+
+    /// <summary>
     /// 是否是双引号包含的字符串
     /// </summary>
     /// <param name="token"></param>
@@ -51,14 +61,13 @@ namespace VGUILocalizationTool.Valve
     /// <returns></returns>
     public Dictionary<string, object> GetAST(string path, string originLang = null)
     {
-      string BOF = null;
-      string EOF = null;
       string lang = null;
+      string frame = null;
       string tokenInID = null;
-      bool isInLanguage = false;
-      bool isPreEnterTokens = false;
-      bool isEnterTokens = false;
-      bool isLeaveTokens = false;
+      // Language 解析状态 - 0：未解析、1：正在解析、2：解析完毕
+      int langState = 0;
+      // Tokens 解析状态 - 0：未解析、1：准备解析、2：正在解析、3：解析完毕
+      int tokensState = 0;
       bool withOriginText = false;
       string[][] tokens = Tokens.GetTokens(path);
       List<ValveLang> langTokens = new List<ValveLang>();
@@ -73,11 +82,12 @@ namespace VGUILocalizationTool.Valve
       // 循环语法片断行
       for (int i = 0, rows = tokens.Length; i < rows; i++)
       {
-        int pos = 0;
+        // Tokens 解析标识 - 0：解析字段、1：准备语言、2：解析平台、3：解析其他
+        int tokenFlag = 0;
         ValveLang item = null;
 
         // 已进入语言列表区域初始化语言对象
-        if (isEnterTokens && !isLeaveTokens)
+        if (tokensState == 2)
         {
           item = new ValveLang();
         }
@@ -87,64 +97,68 @@ namespace VGUILocalizationTool.Valve
         {
           string token = tokens[i][j];
 
-          // 进入语言列表区域之前
-          if (!isEnterTokens && !isLeaveTokens)
+          if (langState < 2 && tokensState != 1 && tokensState != 2)
           {
-            if (!isPreEnterTokens && token == "\"Tokens\"")
+            if (langState == 0 && token == "\"Language\"")
             {
-              isPreEnterTokens = true;
-              BOF += token;
+              langState = 1;
             }
-            else if (isPreEnterTokens && token == "{")
+            else if (langState == 1)
             {
-              isEnterTokens = true;
-              BOF += token;
-
-              if (j == cols - 1)
+              if (IsQuotationWrap(token))
               {
-                BOF += Environment.NewLine;
+                langState = 2;
+                lang = RemoveQuotationWrap(token);
+                frame += "\"{0}\"";
+                continue;
               }
             }
-            else if (!isInLanguage && token == "\"Language\"")
+          }
+
+          if (tokensState == 0)
+          {
+            if (token == "\"Tokens\"")
             {
-              isInLanguage = true;
-              BOF += token;
-            }
-            else if (lang == null && IsQuotationWrap(token))
-            {
-              BOF += "\"" + LANGHOLDER + "\"";
-              lang = RemoveQuotationWrap(token);
-            }
-            else
-            {
-              BOF += token;
+              tokensState = 1;
             }
           }
-          // 已进入语言列表区域
-          else if (isEnterTokens && !isLeaveTokens)
+          else if (tokensState == 1)
           {
-            string trimToken = token.Trim();
-
-            // 离开语言列表区域
-            if (token == "}")
+            if (token == "{")
             {
-              isLeaveTokens = true;
+              tokensState = 2;
+              item = new ValveLang();
+              frame += EscapeBrace(token);
 
               if (j == cols - 1)
               {
-                EOF += Environment.NewLine;
+                frame += Environment.NewLine;
+              }
+
+              frame += "{1}";
+            }
+          }
+          else if (tokensState == 2)
+          {
+            if (token == "}")
+            {
+              tokensState = 3;
+
+              if (j == 0)
+              {
+                frame += Environment.NewLine;
               }
             }
             else
             {
               // 解析语法
-              switch (pos)
+              switch (tokenFlag)
               {
                 // 字段
                 case 0:
                   if (IsQuotationWrap(token))
                   {
-                    pos++;
+                    tokenFlag = 1;
                     item.ID = RemoveQuotationWrap(token);
                   }
                   else
@@ -156,7 +170,7 @@ namespace VGUILocalizationTool.Valve
                 case 1:
                   if (IsQuotationWrap(token))
                   {
-                    pos++;
+                    tokenFlag = 2;
                     item.Localized = RemoveQuotationWrap(token);
                   }
                   else
@@ -168,7 +182,7 @@ namespace VGUILocalizationTool.Valve
                 case 2:
                   if (token.StartsWith("[") && token.EndsWith("]"))
                   {
-                    pos++;
+                    tokenFlag = 3;
                     item.Platform = token;
                   }
                   else
@@ -182,67 +196,54 @@ namespace VGUILocalizationTool.Valve
               }
             }
           }
-          // 离开语言列表区域
+
+          if (tokensState != 2)
+          {
+            frame += EscapeBrace(token);
+          }
+        }
+
+        if (tokensState != 2 && i < rows - 1)
+        {
+          frame += Environment.NewLine;
+        }
+
+        // 解析成功
+        if (tokensState == 2 && tokenFlag >= 2)
+        {
+          // 没有默认语言跳出原始语言计算
+          if (originLang == null && ORILANGRE.IsMatch(item.ID))
+          {
+            continue;
+          }
+
+          // 计算原始语言属性
+          if (originLang != null && item.ID.StartsWith(tokenInID))
+          {
+            withOriginText = true;
+
+            ValveLang selectedItem = (
+              from it in langTokens
+              where it.ID == item.ID.Remove(0, tokenInID.Length) && it.Platform == item.Platform
+              select it
+            ).SingleOrDefault();
+
+            if (selectedItem != null)
+            {
+              selectedItem.Origin = item.Localized;
+            }
+          }
           else
           {
-            EOF += token;
-          }
-        }
-
-        // 进入语言列表区域之前
-        if (!isEnterTokens && !isLeaveTokens)
-        {
-          BOF += Environment.NewLine;
-        }
-        // 进入语言列表区域
-        else if (isEnterTokens && !isLeaveTokens)
-        {
-          // 解析成功
-          if (pos >= 2)
-          {
-            // 没有默认语言跳出原始语言计算
-            if (originLang == null && ORILANGRE.IsMatch(item.ID))
-            {
-              continue;
-            }
-
-            // 计算原始语言属性
-            if (originLang != null && item.ID.StartsWith(tokenInID))
-            {
-              withOriginText = true;
-
-              ValveLang selectedItem = (
-                from it in langTokens
-                where it.ID == item.ID.Remove(0, tokenInID.Length) && it.Platform == item.Platform
-                select it
-              ).SingleOrDefault();
-
-              if (selectedItem != null)
-              {
-                selectedItem.Origin = item.Localized;
-              }
-            }
-            else
-            {
-              langTokens.Add(item);
-            }
-          }
-        }
-        // 离开语言列表区域
-        else
-        {
-          if (i < rows - 1)
-          {
-            EOF += Environment.NewLine;
+            langTokens.Add(item);
           }
         }
       }
 
       // 添加属性
-      valveAst.Add("BOF", BOF);
-      valveAst.Add("Lang", lang);
-      valveAst.Add("LangTokens", langTokens);
-      valveAst.Add("EOF", EOF);
+      valveAst.Add("Language", lang);
+      valveAst.Add("Tokens", langTokens);
+      valveAst.Add("Frame", frame);
       valveAst.Add("WithOriginText", withOriginText);
 
       return valveAst;

@@ -165,10 +165,9 @@ namespace VGUILocalizationTool
       {
         Dictionary<string, object> ast = valveAst.GetAST(path, "english");
 
-        string BOF = ast["BOF"].ToString();
-        string EOF = ast["EOF"].ToString();
-        string lang = ast["Lang"].ToString();
-        string head = BOF.Replace(Valve.ValveAST.LANGHOLDER, lang);
+        string frame = ast["Frame"].ToString();
+
+        string x = String.Format(frame, "schinese", "hello");
       }
 
       return list;
