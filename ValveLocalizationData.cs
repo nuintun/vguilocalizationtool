@@ -4,14 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace VGUILocalizationTool.Valve
+namespace VGUILocalizationTool
 {
-  class ValveAST
+  class ValveLocalizationData
   {
-    public string Frame { set; get; }
     public string Language { set; get; }
-    public List<ValveToken> Tokens { set; get; }
     public bool WithOriginText { set; get; }
-    public string OriginLanguage { set; get; }
+    public List<LocalizationData> List { set; get; }
   }
 }

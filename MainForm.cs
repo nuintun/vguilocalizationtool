@@ -15,7 +15,7 @@ namespace VGUILocalizationTool
   public partial class MainForm : Form
   {
     // 语言文件
-    private ValveLocalizationFile file;
+    private ValveLocalizationFile valveFile;
     // 添加本地化语言窗口
     private AddLocal localDialog = new AddLocal();
     // 搜索窗口
@@ -32,24 +32,23 @@ namespace VGUILocalizationTool
     // 打开文件
     private void OpenFile()
     {
-      // 清除文件缓存
-      file = null;
-
       // 清除缓存
       foreach (var item in CACHE)
       {
         CACHE.Remove(item.Key);
       }
 
-      string path = Path.GetDirectoryName(tbOrigin.Text);
-      string ext = Path.GetExtension(tbOrigin.Text);
-      string originName = Path.GetFileNameWithoutExtension(tbOrigin.Text);
+      string path = tbOrigin.Text;
+      string dir = Path.GetDirectoryName(path);
+      string ext = Path.GetExtension(path);
+      string originName = Path.GetFileNameWithoutExtension(path);
       int pos = originName.LastIndexOf("_");
 
-      openOriginFile.InitialDirectory = path;
+      valveFile = new ValveLocalizationFile(path);
+      openOriginFile.InitialDirectory = dir;
 
       var allfiles =
-        from s in Directory.GetFiles(path + "\\", (pos >= 0 ? originName.Remove(pos) : originName) + "_*" + ext)
+        from s in Directory.GetFiles(dir + "\\", (pos >= 0 ? originName.Remove(pos) : originName) + "_*" + ext)
         orderby s
         select Path.GetFileNameWithoutExtension(s);
 
@@ -138,98 +137,55 @@ namespace VGUILocalizationTool
       }
     }
 
-    // 是否已本地化
-    bool Locolaized(string or, string lc)
-    {
-      if (or == null || lc == null)
-      {
-        return or != lc;
-      }
-      else
-      {
-        or = Regex.Replace(or.Trim(), @"%[A-z]\d*", "");
-        lc = Regex.Replace(lc.Trim(), @"%[A-z]\d*", "");
-
-        if (or == "" && lc == "")
-        {
-          return true;
-        }
-        else
-        {
-          return or != lc;
-        }
-      }
-    }
-
-    // 设置缓存
-    private void SetCache(string localTokens, ValveLocalizationCache localCache)
+    /// <summary>
+    /// 设置缓存
+    /// </summary>
+    /// <param name="language"></param>
+    /// <param name="data"></param>
+    private void SetCache(string language, ValveLocalizationData data)
     {
       CacheItemPolicy policy = new CacheItemPolicy();
       policy.Priority = CacheItemPriority.NotRemovable;
 
-      CACHE.Set(localTokens, localCache, policy);
+      CACHE.Set(language, data, policy);
+    }
+
+    /// <summary>
+    /// 获取缓存
+    /// </summary>
+    /// <param name="language"></param>
+    /// <returns></returns>
+    private ValveLocalizationData GetCache(string language = null)
+    {
+      if (language == null)
+      {
+        language = cbLocal.SelectedItem.ToString();
+      }
+
+      return (ValveLocalizationData)CACHE.Get(language);
     }
 
     // 选择本地化语言
     private void cbLocal_SelectedIndexChanged(object sender, EventArgs e)
     {
-      ValveLocalizationCache localCache = null;
-      string localTokens = cbLocal.SelectedItem.ToString();
+      ValveLocalizationData localData = null;
+      string localLanguage = cbLocal.SelectedItem.ToString();
 
-      if (file == null)
+      if (!CACHE.Contains(localLanguage))
       {
-        file = new ValveLocalizationFile(tbOrigin.Text);
-      }
+        localData = valveFile.ReadData(localLanguage);
 
-
-      if (!CACHE.Contains(localTokens))
-      {
-        List<LocalizationData> origin = file.ReadData();
-        List<LocalizationData> local = file.ReadData(localTokens);
-
-        foreach (var or in origin)
-        {
-          if (or.ID == null)
-          {
-            continue;
-          }
-
-          var lc = (
-            from l in local
-            where or.ID == l.ID
-            select l
-          ).SingleOrDefault();
-
-          or.Origin = or.Localized;
-          or.DelimeterOrigin = or.DelimeterLocalized;
-
-          if (lc != null && lc.Localized != null)
-          {
-            or.OriginOld = lc.Origin;
-            or.Localized = lc.Localized;
-            or.UseSlashN = lc.UseSlashN;
-            or.DelimeterLocalized = lc.DelimeterLocalized;
-            or.OriginTextChanged = (lc.Origin != null && or.Origin != lc.Origin);
-          }
-        }
-
-        localCache = new ValveLocalizationCache();
-        localCache.Data = origin;
-        localCache.WithOriginText = file.WithOriginText;
-        localCache.DontSaveNotLocalized = file.DontSaveNotLocalized;
-
-        SetCache(localTokens, localCache);
+        SetCache(localLanguage, localData);
       }
       else
       {
-        localCache = (ValveLocalizationCache)CACHE.Get(localTokens);
+        localData = GetCache(localLanguage);
       }
 
       // 切换数据源
-      localizationDataBindingSource.DataSource = localCache.Data;
+      localizationDataBindingSource.DataSource = localData.List;
       // 切换选择状态
-      cbSaveWithOrigin.Checked = localCache.WithOriginText;
-      cbDontSaveNotLocalized.Checked = localCache.DontSaveNotLocalized;
+      cbSaveWithOrigin.Checked = localData.WithOriginText;
       btnFind.Enabled = localizationDataBindingSource.Count > 0;
 
       // 设置查找，上一个，下一个的状态
@@ -242,11 +198,9 @@ namespace VGUILocalizationTool
     // 保存
     private void btnSave_Click(object sender, EventArgs e)
     {
-      if (file != null)
+      if (valveFile != null)
       {
-        List<LocalizationData> local = (List<LocalizationData>)localizationDataBindingSource.DataSource;
-
-        file.WriteData(cbLocal.SelectedItem.ToString(), local);
+        valveFile.WriteData(GetCache());
         ShowStatus("保存成功");
       }
     }
@@ -268,7 +222,7 @@ namespace VGUILocalizationTool
       {
         data = (LocalizationData)localizationDataBindingSource.List[--pos];
 
-        if (data.ID != null && (data.OriginTextChanged || !Locolaized(data.Origin, data.Localized)))
+        if (data.ID != null && (data.OriginTextChanged || !ValveLocalizationFile.Locolaized(data.Origin, data.Localized)))
         {
           localizationDataBindingSource.Position = pos;
 
@@ -294,7 +248,7 @@ namespace VGUILocalizationTool
       {
         data = (LocalizationData)localizationDataBindingSource.List[++pos];
 
-        if (data.ID != null && (data.OriginTextChanged || !Locolaized(data.Origin, data.Localized)))
+        if (data.ID != null && (data.OriginTextChanged || !ValveLocalizationFile.Locolaized(data.Origin, data.Localized)))
         {
           localizationDataBindingSource.Position = pos;
 
@@ -546,37 +500,18 @@ namespace VGUILocalizationTool
     // 是否保存原始语言
     private void cbSaveWithOrigin_CheckedChanged(object sender, EventArgs e)
     {
-      if (file != null)
+      if (valveFile != null)
       {
         string tokens = cbLocal.SelectedItem.ToString();
         bool isChecked = cbSaveWithOrigin.Checked;
 
-        file.WithOriginText = isChecked;
+        valveFile.WithOriginText = isChecked;
 
         if (CACHE.Contains(tokens))
         {
-          ValveLocalizationCache localCache = (ValveLocalizationCache)CACHE.Get(tokens);
+          ValveLocalizationData localCache = (ValveLocalizationData)CACHE.Get(tokens);
 
           localCache.WithOriginText = isChecked;
-        }
-      }
-    }
-
-    // 是否保存未本地化的项
-    private void cbDontSaveNotLocalized_CheckedChanged(object sender, EventArgs e)
-    {
-      if (file != null)
-      {
-        string tokens = cbLocal.SelectedItem.ToString();
-        bool isChecked = cbDontSaveNotLocalized.Checked;
-
-        file.DontSaveNotLocalized = isChecked;
-
-        if (CACHE.Contains(tokens))
-        {
-          ValveLocalizationCache localCache = (ValveLocalizationCache)CACHE.Get(tokens);
-
-          localCache.DontSaveNotLocalized = isChecked;
         }
       }
     }
