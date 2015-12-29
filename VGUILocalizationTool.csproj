@@ -105,11 +105,11 @@
     <Compile Include="AddLocal.Designer.cs">
       <DependentUpon>AddLocal.cs</DependentUpon>
     </Compile>
-    <Compile Include="FindTextDialog.cs">
+    <Compile Include="FindText.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FindTextDialog.Designer.cs">
-      <DependentUpon>FindTextDialog.cs</DependentUpon>
+    <Compile Include="FindText.Designer.cs">
+      <DependentUpon>FindText.cs</DependentUpon>
     </Compile>
     <Compile Include="LocalizationData.cs" />
     <Compile Include="MainForm.cs">
@@ -127,8 +127,8 @@
     <EmbeddedResource Include="AddLocal.resx">
       <DependentUpon>AddLocal.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FindTextDialog.resx">
-      <DependentUpon>FindTextDialog.cs</DependentUpon>
+    <EmbeddedResource Include="FindText.resx">
+      <DependentUpon>FindText.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>

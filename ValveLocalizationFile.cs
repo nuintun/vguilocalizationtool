@@ -130,7 +130,7 @@ namespace VGUILocalizationTool
             from item in localAST.Tokens
             where originToken.ID == item.ID && originToken.Platform == item.Platform
             select item
-          ).SingleOrDefault();
+          ).LastOrDefault();
         }
 
         LocalizationData listItem = new LocalizationData();
@@ -202,7 +202,7 @@ namespace VGUILocalizationTool
             from item in data.List
             where originToken.ID == item.ID && originToken.Platform == item.Platform
             select item
-          ).SingleOrDefault();
+          ).LastOrDefault();
         }
 
         token.BOF = originToken.BOF;

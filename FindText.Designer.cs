@@ -1,6 +1,6 @@
 ﻿namespace VGUILocalizationTool
 {
-  partial class FindTextDialog
+  partial class FindText
   {
     /// <summary>
     /// Required designer variable.
@@ -29,7 +29,7 @@
     private void InitializeComponent()
     {
       this.components = new System.ComponentModel.Container();
-      System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FindTextDialog));
+      System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FindText));
       this.label1 = new System.Windows.Forms.Label();
       this.btnNext = new System.Windows.Forms.Button();
       this.btnPrev = new System.Windows.Forms.Button();
@@ -128,7 +128,7 @@
       this.tbText.TabIndex = 1;
       this.tbText.Text = global::VGUILocalizationTool.Properties.Settings.Default.FindText;
       // 
-      // FindTextDialog
+      // FindText
       // 
       this.AcceptButton = this.btnNext;
       this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
@@ -150,12 +150,12 @@
       this.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
       this.MaximizeBox = false;
       this.MinimizeBox = false;
-      this.Name = "FindTextDialog";
+      this.Name = "FindText";
       this.ShowInTaskbar = false;
       this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
       this.Text = "查找";
       this.TopMost = true;
-      this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FindTextDialog_FormClosing);
+      this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FindText_FormClosing);
       this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FindTextDialog_KeyDown);
       this.ResumeLayout(false);
       this.PerformLayout();

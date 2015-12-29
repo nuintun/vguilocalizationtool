@@ -9,12 +9,12 @@ using System.Windows.Forms;
 
 namespace VGUILocalizationTool
 {
-  public partial class FindTextDialog : Form
+  public partial class FindText : Form
   {
-    internal MainForm mainForm;
+    internal MainForm EntryForm;
 
     // 初始化
-    public FindTextDialog()
+    public FindText()
     {
       InitializeComponent();
     }
@@ -22,21 +22,13 @@ namespace VGUILocalizationTool
     // 向上查找
     private void btnPrev_Click(object sender, EventArgs e)
     {
-      mainForm.FindPrev();
+      EntryForm.FindPrev();
     }
 
     // 向下查找
     private void btNext_Click(object sender, EventArgs e)
     {
-      mainForm.FindNext();
-    }
-
-    // 窗口关闭
-    private void FindTextDialog_FormClosing(object sender, FormClosingEventArgs e)
-    {
-      e.Cancel = true;
-
-      this.Hide();
+      EntryForm.FindNext();
     }
 
     // 搜索条件
@@ -50,16 +42,24 @@ namespace VGUILocalizationTool
     {
       if (e.KeyCode == Keys.Escape)
       {
-        this.Close();
+        this.Hide();
       }
       if (e.KeyCode == Keys.F2)
       {
-        mainForm.FindPrev();
+        EntryForm.FindPrev();
       }
       else if (e.KeyCode == Keys.F3)
       {
-        mainForm.FindNext();
+        EntryForm.FindNext();
       }
+    }
+
+    // 阻止窗口关闭
+    private void FindText_FormClosing(object sender, FormClosingEventArgs e)
+    {
+      e.Cancel = true;
+
+      this.Hide();
     }
   }
 }
