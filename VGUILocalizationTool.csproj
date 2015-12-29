@@ -111,7 +111,7 @@
     <Compile Include="FindText.Designer.cs">
       <DependentUpon>FindText.cs</DependentUpon>
     </Compile>
-    <Compile Include="LocalizationData.cs" />
+    <Compile Include="LocalizationListData.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -157,7 +157,6 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="Settings.cs" />
-    <Compile Include="Tokens.cs" />
     <Compile Include="ValveLocalizationData.cs" />
     <Compile Include="ValveLocalizationFile.cs" />
   </ItemGroup>

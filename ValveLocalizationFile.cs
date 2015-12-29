@@ -97,7 +97,7 @@ namespace VGUILocalizationTool
       string localPath = GetLocalFilePath(local);
 
       ValveLocalizationData data = new ValveLocalizationData();
-      List<LocalizationData> list = new List<LocalizationData>();
+      List<LocalizationListData> list = new List<LocalizationListData>();
 
       if (File.Exists(localPath))
       {
@@ -133,7 +133,7 @@ namespace VGUILocalizationTool
           ).LastOrDefault();
         }
 
-        LocalizationData listItem = new LocalizationData();
+        LocalizationListData listItem = new LocalizationListData();
 
         listItem.ID = originToken.ID;
         listItem.Origin = originToken.Localized;
@@ -192,7 +192,7 @@ namespace VGUILocalizationTool
 
       for (int i = 0, len = this.AST.Tokens.Count; i < len; i++)
       {
-        LocalizationData localData = null;
+        LocalizationListData localData = null;
         Valve.ValveToken token = new Valve.ValveToken();
         Valve.ValveToken originToken = this.AST.Tokens[i];
 

@@ -161,7 +161,7 @@
       // localizationDataBindingSource
       // 
       this.localizationDataBindingSource.AllowNew = false;
-      this.localizationDataBindingSource.DataSource = typeof(VGUILocalizationTool.LocalizationData);
+      this.localizationDataBindingSource.DataSource = typeof(VGUILocalizationTool.LocalizationListData);
       // 
       // label1
       // 

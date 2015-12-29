@@ -5,7 +5,7 @@ using System.Text;
 
 namespace VGUILocalizationTool
 {
-  class LocalizationData
+  class LocalizationListData
   {
     public string ID { set; get; }
     public string Localized { set; get; }

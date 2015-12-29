@@ -75,7 +75,7 @@ namespace VGUILocalizationTool
         btnSave.Enabled = true;
       }
 
-      localizationDataBindingSource.DataSource = new List<LocalizationData>();
+      localizationDataBindingSource.DataSource = new List<LocalizationListData>();
 
       if (Properties.Settings.Default.DefLang != "")
       {
@@ -232,12 +232,12 @@ namespace VGUILocalizationTool
     {
       if (btnPrev.Enabled)
       {
-        LocalizationData data;
+        LocalizationListData data;
         int pos = localizationDataBindingSource.Position;
 
         do
         {
-          data = (LocalizationData)localizationDataBindingSource.List[--pos];
+          data = (LocalizationListData)localizationDataBindingSource.List[--pos];
 
           if (data.ID != null && (data.OriginTextChanged || !ValveLocalizationFile.Locolaized(data.Origin, data.Localized)))
           {
@@ -260,13 +260,13 @@ namespace VGUILocalizationTool
     {
       if (btnNext.Enabled)
       {
-        LocalizationData data;
+        LocalizationListData data;
         int count = localizationDataBindingSource.Count;
         int pos = localizationDataBindingSource.Position;
 
         do
         {
-          data = (LocalizationData)localizationDataBindingSource.List[++pos];
+          data = (LocalizationListData)localizationDataBindingSource.List[++pos];
 
           if (data.ID != null && (data.OriginTextChanged || !ValveLocalizationFile.Locolaized(data.Origin, data.Localized)))
           {
@@ -317,7 +317,7 @@ namespace VGUILocalizationTool
       {
         bool gotoPrev;
         bool isFound = false;
-        LocalizationData data;
+        LocalizationListData data;
         int count = localizationDataBindingSource.Count;
         int pos = localizationDataBindingSource.Position;
         int ind = findText.rbID.Checked ? 0 : findText.rbOrigin.Checked ? 1 : 2;
@@ -329,7 +329,7 @@ namespace VGUILocalizationTool
 
           if (gotoPrev)
           {
-            data = (LocalizationData)localizationDataBindingSource.List[pos];
+            data = (LocalizationListData)localizationDataBindingSource.List[pos];
 
             if (data.ID != null)
             {
@@ -377,7 +377,7 @@ namespace VGUILocalizationTool
       {
         bool gotoNext;
         bool isFound = false;
-        LocalizationData data;
+        LocalizationListData data;
         int count = localizationDataBindingSource.Count;
         int pos = localizationDataBindingSource.Position;
         int ind = findText.rbID.Checked ? 0 : findText.rbOrigin.Checked ? 1 : 2;
@@ -389,7 +389,7 @@ namespace VGUILocalizationTool
 
           if (gotoNext)
           {
-            data = (LocalizationData)localizationDataBindingSource.List[pos];
+            data = (LocalizationListData)localizationDataBindingSource.List[pos];
 
             if (data.ID != null)
             {
@@ -479,7 +479,7 @@ namespace VGUILocalizationTool
     {
       MoveBtnState();
 
-      LocalizationData data = (LocalizationData)localizationDataBindingSource.Current;
+      LocalizationListData data = (LocalizationListData)localizationDataBindingSource.Current;
 
       if (data != null)
       {
@@ -574,7 +574,7 @@ namespace VGUILocalizationTool
     {
       if (localizationDataBindingSource.Count > 0)
       {
-        LocalizationData data = (LocalizationData)localizationDataBindingSource.Current;
+        LocalizationListData data = (LocalizationListData)localizationDataBindingSource.Current;
 
         data.Localized = localTextBox.Text;
 
