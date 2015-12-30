@@ -29,10 +29,10 @@
     private void InitializeComponent()
     {
       this.components = new System.ComponentModel.Container();
-      System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-      System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
-      System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-      System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+      System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+      System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+      System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+      System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
       System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
       this.dataGridView = new System.Windows.Forms.DataGridView();
       this.ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -72,9 +72,9 @@
       this.dataGridView.AllowUserToAddRows = false;
       this.dataGridView.AllowUserToDeleteRows = false;
       this.dataGridView.AllowUserToResizeRows = false;
-      dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Info;
-      dataGridViewCellStyle5.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-      this.dataGridView.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle5;
+      dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Info;
+      dataGridViewCellStyle1.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+      this.dataGridView.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
       this.dataGridView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
@@ -97,8 +97,8 @@
       this.dataGridView.Name = "dataGridView";
       this.dataGridView.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
       this.dataGridView.RowHeadersVisible = false;
-      dataGridViewCellStyle8.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-      this.dataGridView.RowsDefaultCellStyle = dataGridViewCellStyle8;
+      dataGridViewCellStyle4.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+      this.dataGridView.RowsDefaultCellStyle = dataGridViewCellStyle4;
       this.dataGridView.RowTemplate.DefaultCellStyle.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
       this.dataGridView.RowTemplate.Height = 26;
       this.dataGridView.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
@@ -112,8 +112,8 @@
       // 
       this.ID.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
       this.ID.DataPropertyName = "ID";
-      dataGridViewCellStyle6.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-      this.ID.DefaultCellStyle = dataGridViewCellStyle6;
+      dataGridViewCellStyle2.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+      this.ID.DefaultCellStyle = dataGridViewCellStyle2;
       this.ID.FillWeight = 2.5F;
       this.ID.HeaderText = "字段";
       this.ID.MinimumWidth = 38;
@@ -135,10 +135,10 @@
       // OriginTextChanged
       // 
       this.OriginTextChanged.DataPropertyName = "OriginTextChanged";
-      dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-      dataGridViewCellStyle7.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-      dataGridViewCellStyle7.NullValue = false;
-      this.OriginTextChanged.DefaultCellStyle = dataGridViewCellStyle7;
+      dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+      dataGridViewCellStyle3.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+      dataGridViewCellStyle3.NullValue = false;
+      this.OriginTextChanged.DefaultCellStyle = dataGridViewCellStyle3;
       this.OriginTextChanged.FalseValue = "False";
       this.OriginTextChanged.FillWeight = 1F;
       this.OriginTextChanged.HeaderText = "已失效";
@@ -237,7 +237,7 @@
       this.btnAdd.Size = new System.Drawing.Size(65, 25);
       this.btnAdd.TabIndex = 5;
       this.btnAdd.Text = "添加";
-      this.toolTip.SetToolTip(this.btnAdd, "工具会搜索原始语言所在目录的其他语言\r\n并在列表中展示出来，如果没有可以自定\r\n义添加");
+      this.toolTip.SetToolTip(this.btnAdd, "工具会搜索原始语言所在目录的\r\n其他语言并在列表中展示出来，\r\n如果没有可以自定义添加");
       this.btnAdd.UseVisualStyleBackColor = true;
       this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
       // 
@@ -298,7 +298,7 @@
       this.btnPrev.Size = new System.Drawing.Size(65, 25);
       this.btnPrev.TabIndex = 9;
       this.btnPrev.Text = "上一个";
-      this.toolTip.SetToolTip(this.btnPrev, "跳到上一个未本地化的条目\r\n使用 Alt + ← 快速使用");
+      this.toolTip.SetToolTip(this.btnPrev, "跳到上一个未本地化的项\r\n使用 Alt + ← 快速使用\r\n注意：未本地化的项只作参考");
       this.btnPrev.UseVisualStyleBackColor = true;
       this.btnPrev.Click += new System.EventHandler(this.btnPrev_Click);
       // 
@@ -312,7 +312,7 @@
       this.btnFind.Size = new System.Drawing.Size(65, 25);
       this.btnFind.TabIndex = 8;
       this.btnFind.Text = "查找";
-      this.toolTip.SetToolTip(this.btnFind, "使用 Ctrl + F 快速打开");
+      this.toolTip.SetToolTip(this.btnFind, "使用 Ctrl + F 快速打开搜索框");
       this.btnFind.UseVisualStyleBackColor = true;
       this.btnFind.Click += new System.EventHandler(this.btnFind_Click);
       // 
@@ -339,7 +339,7 @@
       this.btnNext.Size = new System.Drawing.Size(65, 25);
       this.btnNext.TabIndex = 10;
       this.btnNext.Text = "下一个";
-      this.toolTip.SetToolTip(this.btnNext, "跳到下一个未本地化的条目\r\n使用 Alt + → 快速使用");
+      this.toolTip.SetToolTip(this.btnNext, "跳到下一个未本地化的项\r\n使用 Alt + → 快速使用\r\n注意：未本地化的项只作参考");
       this.btnNext.UseVisualStyleBackColor = true;
       this.btnNext.Click += new System.EventHandler(this.btnNext_Click);
       // 

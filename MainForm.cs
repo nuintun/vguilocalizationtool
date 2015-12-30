@@ -251,7 +251,7 @@ namespace VGUILocalizationTool
           }
         } while (pos > 0);
 
-        ShowStatus("已移动到开始行");
+        ShowStatus("向上已无未本地化的项");
       }
     }
 
@@ -280,7 +280,7 @@ namespace VGUILocalizationTool
           }
         } while (pos + 1 < count);
 
-        ShowStatus("已移动到结尾行");
+        ShowStatus("向下已无未本地化的项");
       }
     }
 
