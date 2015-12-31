@@ -336,7 +336,14 @@ namespace VGUILocalizationTool.Valve
         }
       }
 
-      return String.Format(AST.Frame, AST.Language, tokens);
+      if (AST.Frame == null)
+      {
+        return string.Empty;
+      }
+      else
+      {
+        return String.Format(AST.Frame, AST.Language, tokens);
+      }
     }
   }
 }
