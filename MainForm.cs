@@ -357,7 +357,7 @@ namespace VGUILocalizationTool
           }
         } while (gotoPrev);
 
-        ShowStatus("未找到匹配项");
+        ShowStatus("向上未找到匹配项");
       }
       else
       {
@@ -417,7 +417,7 @@ namespace VGUILocalizationTool
           }
         } while (gotoNext);
 
-        ShowStatus("未找到匹配项");
+        ShowStatus("向下未找到匹配项");
       }
       else
       {
