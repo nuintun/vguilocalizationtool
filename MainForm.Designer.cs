@@ -66,17 +66,17 @@
       this.panel.SuspendLayout();
       this.statusStrip.SuspendLayout();
       this.SuspendLayout();
-      // 
+      //
       // dataGridView
-      // 
+      //
       this.dataGridView.AllowUserToAddRows = false;
       this.dataGridView.AllowUserToDeleteRows = false;
       this.dataGridView.AllowUserToResizeRows = false;
       dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Info;
       dataGridViewCellStyle1.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
       this.dataGridView.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
-      this.dataGridView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+      this.dataGridView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
       this.dataGridView.AutoGenerateColumns = false;
       this.dataGridView.BackgroundColor = System.Drawing.SystemColors.ControlLightLight;
@@ -107,9 +107,9 @@
       this.dataGridView.TabIndex = 7;
       this.dataGridView.VirtualMode = true;
       this.dataGridView.SelectionChanged += new System.EventHandler(this.dataGridView_SelectChanged);
-      // 
+      //
       // ID
-      // 
+      //
       this.ID.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
       this.ID.DataPropertyName = "ID";
       dataGridViewCellStyle2.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
@@ -120,9 +120,9 @@
       this.ID.Name = "ID";
       this.ID.ReadOnly = true;
       this.ID.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-      // 
+      //
       // Origin
-      // 
+      //
       this.Origin.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
       this.Origin.DataPropertyName = "Origin";
       this.Origin.FillWeight = 3.5F;
@@ -131,9 +131,9 @@
       this.Origin.Name = "Origin";
       this.Origin.ReadOnly = true;
       this.Origin.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-      // 
+      //
       // OriginTextChanged
-      // 
+      //
       this.OriginTextChanged.DataPropertyName = "OriginTextChanged";
       dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
       dataGridViewCellStyle3.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
@@ -147,9 +147,9 @@
       this.OriginTextChanged.ToolTipText = "原始语言有更改，需要重新本地化，完成后请取消选中状态！";
       this.OriginTextChanged.TrueValue = "True";
       this.OriginTextChanged.Width = 50;
-      // 
+      //
       // Localized
-      // 
+      //
       this.Localized.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
       this.Localized.DataPropertyName = "Localized";
       this.Localized.FillWeight = 4F;
@@ -157,14 +157,14 @@
       this.Localized.MinimumWidth = 76;
       this.Localized.Name = "Localized";
       this.Localized.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-      // 
+      //
       // localizationDataBindingSource
-      // 
+      //
       this.localizationDataBindingSource.AllowNew = false;
       this.localizationDataBindingSource.DataSource = typeof(VGUILocalizationTool.LocalizationListData);
-      // 
+      //
       // label1
-      // 
+      //
       this.label1.AutoSize = true;
       this.label1.Location = new System.Drawing.Point(22, 13);
       this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
@@ -172,9 +172,9 @@
       this.label1.Size = new System.Drawing.Size(68, 17);
       this.label1.TabIndex = 0;
       this.label1.Text = "原始语言：";
-      // 
+      //
       // label2
-      // 
+      //
       this.label2.AutoSize = true;
       this.label2.Location = new System.Drawing.Point(10, 48);
       this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
@@ -182,10 +182,10 @@
       this.label2.Size = new System.Drawing.Size(80, 17);
       this.label2.TabIndex = 3;
       this.label2.Text = "本地化语言：";
-      // 
+      //
       // tbOrigin
-      // 
-      this.tbOrigin.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+      //
+      this.tbOrigin.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
       this.tbOrigin.BackColor = System.Drawing.SystemColors.Info;
       this.tbOrigin.Cursor = System.Windows.Forms.Cursors.Default;
@@ -197,9 +197,9 @@
       this.tbOrigin.TabIndex = 1;
       this.tbOrigin.TabStop = false;
       this.tbOrigin.WordWrap = false;
-      // 
+      //
       // btnOpen
-      // 
+      //
       this.btnOpen.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
       this.btnOpen.Location = new System.Drawing.Point(797, 9);
       this.btnOpen.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
@@ -209,10 +209,10 @@
       this.btnOpen.Text = "打开";
       this.btnOpen.UseVisualStyleBackColor = true;
       this.btnOpen.Click += new System.EventHandler(this.btnOpen_Click);
-      // 
+      //
       // cbLocal
-      // 
-      this.cbLocal.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+      //
+      this.cbLocal.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
       this.cbLocal.BackColor = System.Drawing.SystemColors.Info;
       this.cbLocal.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -226,9 +226,9 @@
       this.cbLocal.Sorted = true;
       this.cbLocal.TabIndex = 4;
       this.cbLocal.SelectedIndexChanged += new System.EventHandler(this.cbLocal_SelectedIndexChanged);
-      // 
+      //
       // btnAdd
-      // 
+      //
       this.btnAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
       this.btnAdd.Enabled = false;
       this.btnAdd.Location = new System.Drawing.Point(726, 44);
@@ -240,9 +240,9 @@
       this.toolTip.SetToolTip(this.btnAdd, "工具会搜索原始语言所在目录的\r\n其他语言并在列表中展示出来，\r\n如果没有可以自定义添加");
       this.btnAdd.UseVisualStyleBackColor = true;
       this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
-      // 
+      //
       // btnSave
-      // 
+      //
       this.btnSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
       this.btnSave.Enabled = false;
       this.btnSave.Location = new System.Drawing.Point(797, 44);
@@ -254,10 +254,10 @@
       this.toolTip.SetToolTip(this.btnSave, "使用 Ctrl + S 快速保存");
       this.btnSave.UseVisualStyleBackColor = true;
       this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
-      // 
+      //
       // panel
-      // 
-      this.panel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+      //
+      this.panel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
       this.panel.BackColor = System.Drawing.SystemColors.Control;
       this.panel.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
@@ -275,11 +275,11 @@
       this.panel.Name = "panel";
       this.panel.Size = new System.Drawing.Size(872, 312);
       this.panel.TabIndex = 0;
-      // 
+      //
       // laPlatform
-      // 
-      this.laPlatform.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+      //
+      this.laPlatform.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
       this.laPlatform.AutoEllipsis = true;
       this.laPlatform.Location = new System.Drawing.Point(298, 12);
@@ -287,9 +287,9 @@
       this.laPlatform.Name = "laPlatform";
       this.laPlatform.Size = new System.Drawing.Size(380, 19);
       this.laPlatform.TabIndex = 11;
-      // 
+      //
       // btnPrev
-      // 
+      //
       this.btnPrev.Anchor = System.Windows.Forms.AnchorStyles.Left;
       this.btnPrev.Enabled = false;
       this.btnPrev.Location = new System.Drawing.Point(155, 9);
@@ -301,9 +301,9 @@
       this.toolTip.SetToolTip(this.btnPrev, "跳到上一个未本地化的项\r\n使用 Alt + ← 快速使用\r\n注意：未本地化的项只作参考");
       this.btnPrev.UseVisualStyleBackColor = true;
       this.btnPrev.Click += new System.EventHandler(this.btnPrev_Click);
-      // 
+      //
       // btnFind
-      // 
+      //
       this.btnFind.Anchor = System.Windows.Forms.AnchorStyles.Left;
       this.btnFind.Enabled = false;
       this.btnFind.Location = new System.Drawing.Point(86, 9);
@@ -315,9 +315,9 @@
       this.toolTip.SetToolTip(this.btnFind, "使用 Ctrl + F 快速打开搜索框");
       this.btnFind.UseVisualStyleBackColor = true;
       this.btnFind.Click += new System.EventHandler(this.btnFind_Click);
-      // 
+      //
       // cbSaveWithOrigin
-      // 
+      //
       this.cbSaveWithOrigin.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
       this.cbSaveWithOrigin.AutoSize = true;
       this.cbSaveWithOrigin.Location = new System.Drawing.Point(690, 11);
@@ -328,9 +328,9 @@
       this.cbSaveWithOrigin.Text = "本地化语言中保留原始语言";
       this.cbSaveWithOrigin.UseVisualStyleBackColor = true;
       this.cbSaveWithOrigin.CheckedChanged += new System.EventHandler(this.cbSaveWithOrigin_CheckedChanged);
-      // 
+      //
       // btnNext
-      // 
+      //
       this.btnNext.Anchor = System.Windows.Forms.AnchorStyles.Left;
       this.btnNext.Enabled = false;
       this.btnNext.Location = new System.Drawing.Point(224, 9);
@@ -342,11 +342,11 @@
       this.toolTip.SetToolTip(this.btnNext, "跳到下一个未本地化的项\r\n使用 Alt + → 快速使用\r\n注意：未本地化的项只作参考");
       this.btnNext.UseVisualStyleBackColor = true;
       this.btnNext.Click += new System.EventHandler(this.btnNext_Click);
-      // 
+      //
       // localTextBox
-      // 
+      //
       this.localTextBox.AcceptsReturn = true;
-      this.localTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+      this.localTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
       this.localTextBox.BackColor = System.Drawing.SystemColors.Info;
       this.localTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.localizationDataBindingSource, "Localized", true, System.Windows.Forms.DataSourceUpdateMode.Never));
@@ -361,9 +361,9 @@
       this.localTextBox.WordWrap = false;
       this.localTextBox.TextChanged += new System.EventHandler(this.localTextBox_TextChanged);
       this.localTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.localTextBox_KeyDown);
-      // 
+      //
       // label4
-      // 
+      //
       this.label4.AutoSize = true;
       this.label4.Location = new System.Drawing.Point(4, 174);
       this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
@@ -371,9 +371,9 @@
       this.label4.Size = new System.Drawing.Size(80, 17);
       this.label4.TabIndex = 3;
       this.label4.Text = "本地化语言：";
-      // 
+      //
       // label3
-      // 
+      //
       this.label3.AutoSize = true;
       this.label3.Location = new System.Drawing.Point(16, 43);
       this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
@@ -381,11 +381,11 @@
       this.label3.Size = new System.Drawing.Size(68, 17);
       this.label3.TabIndex = 1;
       this.label3.Text = "原始语言：";
-      // 
+      //
       // originTextBox
-      // 
+      //
       this.originTextBox.AcceptsReturn = true;
-      this.originTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+      this.originTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
       this.originTextBox.BackColor = System.Drawing.SystemColors.Info;
       this.originTextBox.CausesValidation = false;
@@ -401,16 +401,16 @@
       this.originTextBox.TabIndex = 2;
       this.originTextBox.TabStop = false;
       this.originTextBox.WordWrap = false;
-      // 
+      //
       // openOriginFile
-      // 
+      //
       this.openOriginFile.DefaultExt = "txt";
       this.openOriginFile.Filter = "语言资源文件（*.txt）|*.txt";
       this.openOriginFile.InitialDirectory = "C:\\Program Files\\Steam\\";
       this.openOriginFile.Title = "选择语言";
-      // 
+      //
       // statusStrip
-      // 
+      //
       this.statusStrip.BackColor = System.Drawing.SystemColors.Control;
       this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsStatusLabel});
@@ -420,17 +420,17 @@
       this.statusStrip.ShowItemToolTips = true;
       this.statusStrip.Size = new System.Drawing.Size(872, 22);
       this.statusStrip.TabIndex = 8;
-      // 
+      //
       // tsStatusLabel
-      // 
+      //
       this.tsStatusLabel.Image = global::VGUILocalizationTool.Properties.Resources.Info;
       this.tsStatusLabel.Margin = new System.Windows.Forms.Padding(3, 0, 0, 0);
       this.tsStatusLabel.Name = "tsStatusLabel";
       this.tsStatusLabel.Size = new System.Drawing.Size(16, 22);
       this.tsStatusLabel.Visible = false;
-      // 
+      //
       // MainForm
-      // 
+      //
       this.AllowDrop = true;
       this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;

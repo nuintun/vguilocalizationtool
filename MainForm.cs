@@ -74,6 +74,10 @@ namespace VGUILocalizationTool
       {
         btnSave.Enabled = true;
       }
+      else
+      {
+        btnSave.Enabled = false;
+      }
 
       localizationDataBindingSource.DataSource = new List<LocalizationListData>();
 
