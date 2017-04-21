@@ -1,5 +1,4 @@
-VGUI本地化工具
-=========
+# VGUI本地化工具
 
 >用于 ```Valve Source Engine``` 游戏语言资源文件的本地化
 
